@@ -10,12 +10,9 @@ module.exports = {
         configFile: "tsconfig.json"
       }
     ],
-    "comma-dangle": 0,
-    "react/prop-types": 1,
-    "prettier/prettier": 1,
-    "@typescript-eslint/no-unused-vars": 1
+    "comma-dangle": 0
   },
-  env: {
-    "jest/globals": true
+  parserOptions: {
+    sourceType: "module"
   }
 };
