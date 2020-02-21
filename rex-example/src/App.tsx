@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useRex } from "rex";
+import { useRex } from "@t/rex";
 
 export default function App() {
   const store = useRex();

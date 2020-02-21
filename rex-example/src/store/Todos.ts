@@ -1,4 +1,4 @@
-import Rex from "rex";
+import Rex from "@t/rex";
 
 export interface ITask {
   task: string;
