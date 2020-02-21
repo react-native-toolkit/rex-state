@@ -66,5 +66,5 @@ MIT © [DaniAkash][twitter]
 [twitter-badge]: https://img.shields.io/twitter/follow/dani_akash_?style=social
 [github-watch-badge]: https://img.shields.io/github/watchers/DaniAkash/rex.svg?style=social
 [github-watch]: https://github.com/DaniAkash/rex/watchers
-[github-star-badge]: https://img.shields.io/github/stars/DaniAkash/rex-state.svg?style=social
+[github-star-badge]: https://img.shields.io/github/stars/DaniAkash/rex.svg?style=social
 [github-star]: https://github.com/DaniAkash/rex/stargazers
