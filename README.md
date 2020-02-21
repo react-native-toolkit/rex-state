@@ -40,6 +40,8 @@ npm i rex-state
 
 Refer the Example app. Documentation will be completed soon...
 
+### You can also try it live in [**codesandbox!**](https://codesandbox.io/s/state-management-with-rex-4olpn?fontsize=14&hidenavigation=1&theme=dark)
+
 ## Running the Example App
 
 - Clone this Repo
