@@ -1,0 +1,5 @@
+coverage
+.editorconfig
+.eslintrc.js
+.huskyrc.json
+precommit-lint.sh
