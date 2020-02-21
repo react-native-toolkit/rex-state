@@ -1,4 +1,4 @@
-import Rex from "@t/rex";
+import Rex from "rex-state";
 
 export interface ITask {
   task: string;

@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import { RexProvider } from "@t/rex";
+import { RexProvider } from "rex-state";
 import store from "./store/store";
 import App from "./App";
 // import './index.css'

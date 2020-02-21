@@ -1,5 +1,5 @@
 {
-  "name": "@t/rex",
+  "name": "rex-state",
   "version": "0.0.1",
   "description": "The Simplest state management tool for React",
   "scripts": {
