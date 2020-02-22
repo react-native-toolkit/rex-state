@@ -8,13 +8,19 @@ import React, {
   Context
 } from "react";
 
-export const createRexStore: <T extends { [key: string]: Rex<any> }>(
+export const createRexStore: <T extends { [key: string]: new () => Rex<any> }>(
   store: T
 ) => {
   RexProvider: ({ children }: { children: React.ReactNode }) => JSX.Element;
-  useRex: () => T;
+  useRex: () => {
+    [K in keyof typeof store]: InstanceType<typeof store[K]>;
+  };
 } = store => {
-  let RexContext: Context<typeof store>;
+  type RexStore = {
+    [K in keyof typeof store]: InstanceType<typeof store[K]>;
+  };
+
+  let RexContext: Context<RexStore>;
 
   const useRex = () => {
     const store = useContext(RexContext);
@@ -22,8 +28,9 @@ export const createRexStore: <T extends { [key: string]: Rex<any> }>(
   };
 
   const RexProvider = ({ children }: { children: ReactNode }) => {
-    const intializedStore: typeof store = {};
+    const intializedStore = {} as RexStore;
     for (const item in store) {
+      // @ts-ignore
       intializedStore[item] = new store[item]();
     }
     RexContext = createContext(intializedStore);
@@ -48,6 +55,7 @@ class Rex<S> {
 
   public setState<K extends keyof S>(newInternalState: Pick<S, K> | S): void {
     if (!this.internalState) {
+      // @ts-ignore
       this.state = newInternalState;
     } else {
       this.updateInternalState({
