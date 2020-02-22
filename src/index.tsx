@@ -45,11 +45,11 @@ class Rex<S> {
   private internalState!: Readonly<S>;
   private updateInternalState!: Dispatch<SetStateAction<S>>;
 
-  public get state(): Readonly<S> {
+  public get state(): S {
     return this.internalState;
   }
 
-  public set state(value: Readonly<S>) {
+  public set state(value: S) {
     [this.internalState, this.updateInternalState] = useState<S>(value);
   }
 
