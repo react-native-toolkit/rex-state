@@ -1,6 +1,6 @@
 {
   "name": "rex-state",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The Simplest state management tool for React",
   "scripts": {
     "build": "rm -rf ./lib && tsc -p .",
@@ -8,7 +8,7 @@
   },
   "main": "lib/index.js",
   "author": "DaniAkash <s.daniakash@gmail.com> (https://github.com/DaniAkash)",
-  "repository": "DaniAkash/rex",
+  "repository": "DaniAkash/rex-state",
   "license": "MIT",
   "keywords": [
     "react",

@@ -20,11 +20,21 @@ The simplest state management tool for React. Built completely with React Hooks!
 
 ### 🚧 Work in Progress 👷🏽‍♂️🏗
 
-### You are welcome to Install & Try out the project in the mean time!
+This library is currently under heavy testing. Hence it is **NOT** recommended for PROD _just yet_... You are welcome to Install & Try out the project in the mean time!
 
 ### PRs Welcome 👍✨
 
 </div>
+
+## Motivation
+
+React is a simple and straightforward library for building UI however, the current solutions to manage states aren't quite simple or straightforward as React.
+
+Rex State aims to be the simplest way to manage states in your React Project.
+
+## Requirements
+
+Rex State is built purely on React Hooks hence it requires React > 16.8 to work. It also doesn't work with class components.
 
 ## Installation
 
@@ -37,6 +47,82 @@ npm i rex-state
 ```
 
 ## Usage
+
+Rex State is inspired by React's simplicity in building UI. Hence it borrows one of the most common React-ish style for creating & updating states.
+
+### This is a traditional React Class Component
+
+```jsx
+import React, { Component } from "react";
+
+export default class InputField extends Component {
+  constructor() {
+    super();
+    this.state = {
+      value: ""
+    };
+  }
+
+  updateValue = newValue => this.setState({ value: newValue });
+
+  render() {
+    return (
+      <input
+        type="text"
+        placeholder="Add Text here..."
+        value={this.state.value}
+        onChange={event => this.updateValue(event.target.value)}
+      />
+    );
+  }
+}
+```
+
+The above component will render a simple input field and will take care of updating the input state when a new value is entered in the input field. However, the state & UI are tightly coupled together and it is impossible to reuse the same state logic to a different UI.
+
+### This is the same component using Rex State
+
+```jsx
+import React from "react";
+import Rex from "rex-state";
+
+class InputState extends Rex {
+  constructor() {
+    super();
+    this.state = {
+      value: ""
+    };
+  }
+
+  get value() {
+    return this.state.value;
+  }
+
+  updateValue = newValue => this.setState({ value: newValue });
+}
+
+const InputField = () => {
+  const inputState = new InputState();
+
+  return (
+    <input
+      type="text"
+      placeholder="Add Text here..."
+      value={inputState.value}
+      onChange={event => inputState.updateValue(event.target.value)}
+    />
+  );
+};
+
+export default InputField;
+```
+
+The functionality of the component remains unchanged, however we now have two entities.
+
+- `InputState` is a class which is used to define your application state.
+- `InputField` is a functional React Component that uses `InputState` to render it's UI.
+
+This decouples the UI from the State and also provides a nice & familiar class based API to define & manage your states.
 
 Refer the Example app. Documentation will be completed soon...
 
