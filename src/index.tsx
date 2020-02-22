@@ -36,19 +36,19 @@ export const RexProvider = ({ children, store }: RexProviderProps) => {
   return <Provider value={initializedStore}>{children}</Provider>;
 };
 
-class Rex {
-  private internalState: object;
-  private updateInternalState: Dispatch<SetStateAction<object>>;
+class Rex<S> {
+  private internalState!: Readonly<S>;
+  private updateInternalState!: Dispatch<SetStateAction<S>>;
 
-  get state() {
+  public get state(): Readonly<S> {
     return this.internalState;
   }
 
-  set state(value: object) {
-    [this.internalState, this.updateInternalState] = useState<object>(value);
+  public set state(value: Readonly<S>) {
+    [this.internalState, this.updateInternalState] = useState<S>(value);
   }
 
-  public setState(newInternalState: object) {
+  public setState<K extends keyof S>(newInternalState: Pick<S, K> | S): void {
     if (!this.internalState) {
       this.state = newInternalState;
     } else {
