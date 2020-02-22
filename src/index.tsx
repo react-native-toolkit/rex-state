@@ -4,36 +4,34 @@ import React, {
   createContext,
   useContext,
   Dispatch,
-  SetStateAction
+  SetStateAction,
+  Context
 } from "react";
 
-const createStore = (store: object) => {
-  const intializedStore = {};
-  for (const item in store) {
-    intializedStore[item] = new store[item]();
-  }
-  return intializedStore;
-};
+export const createRexStore: <T extends { [key: string]: Rex<any> }>(
+  store: T
+) => {
+  RexProvider: ({ children }: { children: React.ReactNode }) => JSX.Element;
+  useRex: () => T;
+} = store => {
+  let RexContext: Context<typeof store>;
 
-export interface RexProviderProps {
-  children: ReactNode;
-  store: object;
-}
+  const useRex = () => {
+    const store = useContext(RexContext);
+    return store;
+  };
 
-const initalAppState = {};
+  const RexProvider = ({ children }: { children: ReactNode }) => {
+    const intializedStore: typeof store = {};
+    for (const item in store) {
+      intializedStore[item] = new store[item]();
+    }
+    RexContext = createContext(intializedStore);
+    const { Provider } = RexContext;
+    return <Provider value={intializedStore}>{children}</Provider>;
+  };
 
-const AppContext = createContext(initalAppState);
-
-const { Provider } = AppContext;
-
-export const useRex = () => {
-  const store = useContext(AppContext);
-  return store;
-};
-
-export const RexProvider = ({ children, store }: RexProviderProps) => {
-  const initializedStore = createStore(store);
-  return <Provider value={initializedStore}>{children}</Provider>;
+  return { RexProvider, useRex };
 };
 
 class Rex<S> {
