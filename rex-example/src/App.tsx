@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import { useRex } from "rex-state";
+import store from "./store/store";
+
+const { useRex } = store;
 
 export default function App() {
   const store = useRex();
@@ -23,15 +25,13 @@ export default function App() {
       <button onClick={onAddTask}>Submit</button>
       <ul>
         {todos.list.map((item, itemIndex) => {
-          const onClickCheckbox = () => {
-            // now how to toggle this elegantly??
-          };
+          const onClickCheckbox = () => todos.toggleTask(itemIndex);
           return (
             <li key={itemIndex}>
               <input
                 type="checkbox"
                 onChange={onClickCheckbox}
-                checked={item.taskStatus}
+                checked={item.status}
               />
               {item.task}
             </li>
