@@ -8,7 +8,7 @@ import React, {
   Context
 } from "react";
 
-export const createRexStore: <T extends { [key: string]: new () => Rex<any> }>(
+export const createRexStore: <T extends { [key: string]: new () => any }>(
   store: T
 ) => {
   RexProvider: ({ children }: { children: React.ReactNode }) => JSX.Element;
