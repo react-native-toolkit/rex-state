@@ -2,14 +2,10 @@ import React, { useState, createContext, useContext, ReactNode } from "react";
 
 const useRex = <T extends object>(
   defaultState: T
-): [T, (newState: { [K in keyof T]: T[K] }) => void] => {
+): [T, <K extends keyof T>(newInternalState: Pick<T, K> | T) => void] => {
   const [state, updateInternalState] = useState(defaultState);
 
-  const setState = (
-    newInternalState: {
-      [K in keyof T]?: T[K];
-    }
-  ) => {
+  const setState = <K extends keyof T>(newInternalState: Pick<T, K> | T) => {
     updateInternalState({
       ...state,
       ...newInternalState
