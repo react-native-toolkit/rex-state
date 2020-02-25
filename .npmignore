@@ -1,6 +1,0 @@
-coverage
-rex-example
-.editorconfig
-.eslintrc.js
-.huskyrc.json
-precommit-lint.sh

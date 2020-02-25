@@ -10,6 +10,9 @@
   "author": "DaniAkash <s.daniakash@gmail.com> (https://github.com/DaniAkash)",
   "repository": "DaniAkash/rex-state",
   "license": "MIT",
+  "files": [
+    "./lib"
+  ],
   "keywords": [
     "react",
     "rex",
