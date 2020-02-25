@@ -1,13 +1,15 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import store from "./store/store";
 import App from "./App";
+import { FormFieldProvider } from "./store/useFormField";
 
-const { RexProvider } = store;
+// import SimpleApp from "./SimpleApp";
+
+// ReactDOM.render(<SimpleApp />, document.getElementById("app-root"));
 
 ReactDOM.render(
-  <RexProvider>
+  <FormFieldProvider>
     <App />
-  </RexProvider>,
+  </FormFieldProvider>,
   document.getElementById("app-root")
 );
