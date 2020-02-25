@@ -50,66 +50,55 @@ npm i rex-state
 
 Rex State is inspired by React's simplicity in building UI. Hence it borrows one of the most common React-ish style for creating & updating states.
 
-### This is a traditional React Class Component
+### This is a classic React functional component with `useState` hook
 
 ```jsx
-import React, { Component } from "react";
+import React, { useState } from "react";
 
-export default class InputField extends Component {
-  constructor() {
-    super();
-    this.state = {
-      value: ""
-    };
-  }
+const InputField = () => {
+  const [value, updateValue] = useState("");
 
-  updateValue = newValue => this.setState({ value: newValue });
-
-  render() {
-    return (
-      <input
-        type="text"
-        placeholder="Add Text here..."
-        value={this.state.value}
-        onChange={event => this.updateValue(event.target.value)}
-      />
-    );
-  }
-}
+  return (
+    <input
+      type="text"
+      value={value}
+      placeholder="Add Text here..."
+      onChange={event => updateValue(event.target.value)}
+    />
+  );
+};
 ```
 
-The above component will render a simple input field and will take care of updating the input state when a new value is entered in the input field. However, the state & UI are tightly coupled together and it is impossible to reuse the same state logic to a different UI.
+The above component will render a simple input field and will take care of updating the input state when a new value is entered in the input field. However, the state & UI are tightly coupled together and it is impossible to reuse the same state logic to a different component.
 
 ### This is the same component using Rex State
 
 ```jsx
 import React from "react";
-import Rex from "rex-state";
+import useRex from "rex-state";
 
-class InputState extends Rex {
-  constructor() {
-    super();
-    this.state = {
-      value: ""
-    };
-  }
+const useInput = () => {
+  const [state, setState] = useRex({ value: "" });
 
-  get value() {
-    return this.state.value;
-  }
-
-  updateValue = newValue => this.setState({ value: newValue });
-}
+  return {
+    get value() {
+      return state.value;
+    },
+    updateValue(value: string) {
+      setState({ value });
+    }
+  };
+};
 
 const InputField = () => {
-  const inputState = new InputState();
+  const { value, updateValue } = useInput();
 
   return (
     <input
       type="text"
+      value={value}
       placeholder="Add Text here..."
-      value={inputState.value}
-      onChange={event => inputState.updateValue(event.target.value)}
+      onChange={event => updateValue(event.target.value)}
     />
   );
 };
@@ -119,14 +108,12 @@ export default InputField;
 
 The functionality of the component remains unchanged, however we now have two entities.
 
-- `InputState` is a class which is used to define your application state.
-- `InputField` is a functional React Component that uses `InputState` to render it's UI.
+- `useInput` is a hook which is used to define your application state.
+- `InputField` is a functional React Component that uses `useInput` hook to render it's UI.
 
-This decouples the UI from the State and also provides a nice & familiar class based API to define & manage your states.
+This decouples the UI from the State and also provides a nice & familiar way to write an API to define & manage your states.
 
 Refer the Example app. Documentation will be completed soon...
-
-### You can also try it live in [**codesandbox!**](https://codesandbox.io/s/state-management-with-rex-4olpn?fontsize=14&hidenavigation=1&theme=dark)
 
 ## Running the Example App
 
