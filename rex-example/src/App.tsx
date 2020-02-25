@@ -1,43 +1,40 @@
-import React, { useState } from "react";
-import store from "./store/store";
-
-const { useRex } = store;
+import React from "react";
+import { useFormFieldStore } from "./store/useFormField";
 
 export default function App() {
-  const store = useRex();
-  const { todos } = store;
-
-  const [newTask, updateNewTask] = useState("");
-
-  const onAddTask = () => {
-    todos.addTask(newTask);
-    updateNewTask("");
-  };
-
+  const {
+    values,
+    updateName,
+    updateEmail,
+    updateAge,
+    updatePhone
+  } = useFormFieldStore();
   return (
     <div>
       <input
         type="text"
-        value={newTask}
-        onChange={event => updateNewTask(event.target.value)}
-        placeholder="New Task"
+        value={values.name}
+        onChange={e => updateName(e.target.value)}
+        placeholder="Name"
       />
-      <button onClick={onAddTask}>Submit</button>
-      <ul>
-        {todos.list.map((item, itemIndex) => {
-          const onClickCheckbox = () => todos.toggleTask(itemIndex);
-          return (
-            <li key={itemIndex}>
-              <input
-                type="checkbox"
-                onChange={onClickCheckbox}
-                checked={item.status}
-              />
-              {item.task}
-            </li>
-          );
-        })}
-      </ul>
+      <input
+        type="text"
+        value={values.email}
+        onChange={e => updateEmail(e.target.value)}
+        placeholder="Email"
+      />
+      <input
+        type="text"
+        value={values.phone || ""}
+        onChange={e => updatePhone(e.target.value)}
+        placeholder="Phone"
+      />
+      <input
+        type="number"
+        value={values.age || ""}
+        onChange={e => updateAge(parseInt(e.target.value))}
+        placeholder="Age"
+      />
     </div>
   );
 }
