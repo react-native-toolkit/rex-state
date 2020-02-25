@@ -1,87 +1,44 @@
-import React, {
-  useState,
-  ReactNode,
-  createContext,
-  useContext,
-  Dispatch,
-  SetStateAction,
-  Context,
-  useEffect
-} from "react";
+import React, { useState, createContext, useContext, ReactNode } from "react";
 
-export const createRexStore: <T extends { [key: string]: new () => any }>(
-  store: T
-) => {
-  RexProvider: ({ children }: { children: React.ReactNode }) => JSX.Element;
-  useRex: () => { [K in keyof typeof store]: InstanceType<typeof store[K]> };
-} = store => {
-  type RexStore = { [K in keyof typeof store]: InstanceType<typeof store[K]> };
+const useRex = <T extends object>(
+  defaultState: T
+): [T, (newState: { [K in keyof T]: T[K] }) => void] => {
+  const [state, updateInternalState] = useState(defaultState);
 
-  const RexContext = createContext(store);
+  const setState = (
+    newInternalState: {
+      [K in keyof T]?: T[K];
+    }
+  ) => {
+    updateInternalState({
+      ...state,
+      ...newInternalState
+    });
+  };
 
-  const useRex = () => {
+  return [state, setState];
+};
+
+export const createRexStore = <T extends object>(
+  useRexState: () => T
+): {
+  RexProvider: ({ children }: { children: ReactNode }) => JSX.Element;
+  useStore: () => T;
+} => {
+  const RexContext = createContext<ReturnType<() => T>>({} as T);
+  const { Provider } = RexContext;
+
+  const useStore = () => {
     const store = useContext(RexContext);
     return store;
   };
 
-  const RexInitializer = ({ children }) => {
-    const appStore = useRex();
-
-    for (const each in appStore) {
-      console.log("initializing...");
-      appStore[each].initialize();
-    }
-
-    return <>{children}</>;
-  };
-
   const RexProvider = ({ children }: { children: ReactNode }) => {
-    console.log("updating provider");
-    const { Provider } = RexContext;
-    return (
-      <Provider value={store}>
-        <RexInitializer>{children}</RexInitializer>
-      </Provider>
-    );
+    const state = useRexState();
+    return <Provider value={state}>{children}</Provider>;
   };
 
-  return { RexProvider, useRex };
+  return { RexProvider, useStore };
 };
 
-class Rex<S> {
-  private internalState!: Readonly<S>;
-  private updateInternalState!: Dispatch<SetStateAction<S>>;
-  private defaultState!: S;
-
-  public get state(): S {
-    if (!this.internalState) {
-      this.initialize();
-    }
-    return this.internalState;
-  }
-
-  public initialize() {
-    [this.internalState, this.updateInternalState] = useState<S>(
-      this.defaultState
-    );
-  }
-
-  public set state(value: S) {
-    this.defaultState = value;
-  }
-
-  public setState<K extends keyof S>(newInternalState: Pick<S, K> | S): void {
-    if (!this.internalState) {
-      // TODO: This will not work after perf optimization
-      // @ts-ignore
-      this.state = newInternalState;
-    } else {
-      this.updateInternalState({
-        ...this.internalState,
-        ...newInternalState
-      });
-    }
-  }
-}
-
-export default Rex;
+export default useRex;
