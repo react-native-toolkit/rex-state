@@ -48,6 +48,15 @@ npm i rex-state
 
 ## Usage
 
+```jsx
+import useRex, { createRexStore } from "rex-state";
+```
+
+### API ﹣
+
+- [`useRex`](#userex-hook)
+- [`createRexStore`](#createrexstore)
+
 Rex State is inspired by React's simplicity in building UI. Hence it borrows one of the most common React-ish style for creating & updating states.
 
 ### This is a classic React functional component with `useState` hook
@@ -385,6 +394,12 @@ const TasksStats = () => {
 That concludes this tutorial. The final working code is available for you to try out in **[CodeSandbox](https://codesandbox.io/s/centralized-state-management-with-rex-state-tkfvq)**
 
 > You can also create multiple stores. Just rename `RexProvider` & `useStore` properties of each store before you export them to other components 😁
+
+## Why Rex State over other state management tools?
+
+- Simple & un-opinionated
+- As fast as React
+- Built for projects of all sizes!
 
 ## TODO:
 
