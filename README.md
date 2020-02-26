@@ -179,7 +179,7 @@ const Counter = () => {
 
 > Try this example directly in [CodeSandbox](https://codesandbox.io/s/rex-state-counter-8cubi)
 
-> You can follow this pattern without rex-state too since `useRex` hook is built only to simplify managing large state objects
+> Since `useRex` hook is built only to simplify managing large state objects. You can follow this pattern without rex-state too!
 
 ## Centralized state management with Rex State
 
@@ -386,7 +386,13 @@ That concludes this tutorial. The final working code is available for you to try
 
 > You can also create multiple stores. Just rename `RexProvider` & `useStore` properties of each store before you export them to other components 😁
 
-Documentation will be completed soon...
+## TODO:
+
+I'm working hard to make this library PROD ready. Stay tuned! ✨
+
+- [ ] Unit Tests
+- [ ] Performance Testing - in progress
+- [ ] CI/CD Setup
 
 ## Running the Example App
 
