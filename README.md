@@ -1,8 +1,10 @@
 <h1 align="center">
-🦖 Rex State - React States on Steroids 💊
+🦖 Rex State
 </h1>
 
 <div align="center">
+
+React States on Steroids 💉💊
 
 The simplest state management tool for React. Built completely with React Hooks!
 
