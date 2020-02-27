@@ -8,6 +8,7 @@ The simplest state management tool for React. Built completely with React Hooks!
 
 [![Version][version-badge]][package]
 [![Downloads][downloads-badge]][npmtrends]
+[![Bundlephobia][bundle-phobia-badge]][bundle-phobia]
 
 <!-- [![Build Status][build-badge]][build]
 [![Code Coverage][coverage-badge]][coverage] -->
@@ -427,6 +428,8 @@ MIT © [DaniAkash][twitter]
 [coverage-badge]:
 [coverage]:  -->
 
+[bundle-phobia-badge]: https://badgen.net/bundlephobia/minzip/rex-state
+[bundle-phobia]: https://bundlephobia.com/result?p=rex-state
 [downloads-badge]: https://img.shields.io/npm/dm/rex-state.svg?style=flat-square
 [npmtrends]: http://www.npmtrends.com/rex-state
 [package]: https://www.npmjs.com/package/rex-state
