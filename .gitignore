@@ -1,6 +1,9 @@
 # Output dir
 lib/
 
+# microbundle cache
+.rts2_cache*
+
 # Created by https://www.gitignore.io/api/node,react,webstorm,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=node,react,webstorm,visualstudiocode
 
