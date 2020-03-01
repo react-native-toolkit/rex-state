@@ -26,9 +26,15 @@
     "react-state"
   ],
   "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "@babel/preset-env": "^7.8.6",
+    "@babel/preset-react": "^7.8.3",
+    "@babel/preset-typescript": "^7.8.3",
+    "@testing-library/react": "^9.4.1",
     "@types/jest": "25.1.1",
     "@types/react": "16.9.19",
     "@typescript-eslint/parser": "2.20.0",
+    "babel-jest": "^25.1.0",
     "eslint": "6.8.0",
     "eslint-plugin-jest": "23.7.0",
     "eslint-plugin-prettier": "3.1.2",
@@ -38,6 +44,8 @@
     "microbundle": "^0.11.0",
     "prettier": "1.19.1",
     "pretty-quick": "2.0.1",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
     "typescript": "3.7.5"
   },
   "peerDependencies": {
