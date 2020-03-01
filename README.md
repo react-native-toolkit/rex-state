@@ -9,8 +9,8 @@ React States on Steroids 💉💊
 The simplest state management tool for React. Built completely with React Hooks!
 
 [![Build Status][build-badge]][build]
-[![Test Coverage][coverage-badge]][coverage-url]
 [![Maintainability][maintainability-badge]][maintainability-url]
+[![Test Coverage][coverage-badge]][coverage-url]
 
 [![Version][version-badge]][package]
 [![Downloads][downloads-badge]][npmtrends]
@@ -409,9 +409,9 @@ That concludes this tutorial. The final working code is available for you to try
 
 I'm working hard to make this library PROD ready. Stay tuned! ✨
 
-- [ ] Unit Tests
-- [ ] Performance Testing - in progress
-- [ ] CI/CD Setup
+- [x] Unit Tests
+- [x] Performance Testing
+- [ ] CI/CD Setup - in progress
 
 ## Running the Example App
 
