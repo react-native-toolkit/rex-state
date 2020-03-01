@@ -5,7 +5,8 @@
   "scripts": {
     "build": "microbundle",
     "start": "microbundle watch",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "main": "lib/index.js",
   "umd:main": "lib/index.umd.js",
