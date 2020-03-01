@@ -45,6 +45,6 @@ jobs:
       - run: yarn build
       - uses: paambaati/codeclimate-action@v2.2.4
         env:
-          CC_TEST_REPORTER_ID: 945dfb58a832d233a3caeb84e3e6d3be212e8c7abcb48117fce63b9adcb43647
+          CC_TEST_REPORTER_ID: 9a349c4fc3a8d6483d902ad439bdee59bcf87a7d5976eedb99d6f04090b651bd
         with:
           coverageCommand: yarn coverage
