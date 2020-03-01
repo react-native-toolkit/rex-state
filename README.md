@@ -8,12 +8,13 @@ React States on Steroids 💉💊
 
 The simplest state management tool for React. Built completely with React Hooks!
 
+[![Build Status][build-badge]][build]
+[![Test Coverage][coverage-badge]][coverage-url]
+[![Maintainability][maintainability-badge]][maintainability-url]
+
 [![Version][version-badge]][package]
 [![Downloads][downloads-badge]][npmtrends]
 [![Bundlephobia][bundle-phobia-badge]][bundle-phobia]
-
-<!-- [![Build Status][build-badge]][build]
-[![Code Coverage][coverage-badge]][coverage] -->
 
 [![Star on GitHub][github-star-badge]][github-star]
 [![Watch on GitHub][github-watch-badge]][github-watch]
@@ -425,11 +426,12 @@ I'm working hard to make this library PROD ready. Stay tuned! ✨
 
 MIT © [DaniAkash][twitter]
 
-<!-- [build-badge]:
-[build]:
-[coverage-badge]:
-[coverage]:  -->
-
+[build]: https://github.com/DaniAkash/rex-state/actions
+[build-badge]: https://github.com/daniakash/rex-state/workflows/build/badge.svg
+[coverage-badge]: https://api.codeclimate.com/v1/badges/f7954c1e1686cabeeb97/test_coverage
+[coverage-url]: https://codeclimate.com/github/DaniAkash/rex-state/test_coverage
+[maintainability-badge]: https://api.codeclimate.com/v1/badges/f7954c1e1686cabeeb97/maintainability
+[maintainability-url]: https://codeclimate.com/github/DaniAkash/rex-state/maintainability
 [bundle-phobia-badge]: https://badgen.net/bundlephobia/minzip/rex-state
 [bundle-phobia]: https://bundlephobia.com/result?p=rex-state
 [downloads-badge]: https://img.shields.io/npm/dm/rex-state.svg?style=flat-square
