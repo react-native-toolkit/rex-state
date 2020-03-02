@@ -8,6 +8,7 @@ on:
     paths:
       - src/*
       - test/*
+      - __tests__/*
       - "*.json"
       - yarn.lock
       - .github/**/*.yml
