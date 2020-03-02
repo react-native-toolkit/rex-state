@@ -89,7 +89,7 @@ describe("Testing CJS build", () => {
   });
 
   test("useInput as store", () => {
-    const inputData = setupInputField();
+    const inputData = setupInputFieldWithStore();
     expect(inputData.value).toBe("");
     inputData.updateValue("Foo Bar!");
     expect(inputData.value).toBe("Foo Bar!");
