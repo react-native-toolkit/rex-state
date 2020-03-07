@@ -1,16 +1,23 @@
-import React, { useState, createContext, useContext, ReactNode } from "react";
+import React, {
+  createContext,
+  useContext,
+  ReactNode,
+  useReducer,
+  Dispatch
+} from "react";
 
-const useRex = <T extends object>(
+const useRex = <T extends object, K extends keyof T>(
   defaultState: T
-): [T, <K extends keyof T>(newInternalState: Pick<T, K> | T) => void] => {
-  const [state, updateInternalState] = useState(defaultState);
-
-  const setState = <K extends keyof T>(newInternalState: Pick<T, K> | T) => {
-    updateInternalState({
-      ...state,
-      ...newInternalState
-    });
-  };
+): [T, Dispatch<Partial<Pick<T, K>>>] => {
+  const [state, setState] = useReducer(
+    (oldState: T, stateUpdate: Partial<Pick<T, K>>) => {
+      return {
+        ...oldState,
+        ...stateUpdate
+      };
+    },
+    defaultState
+  );
 
   return [state, setState];
 };
