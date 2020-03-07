@@ -1,6 +1,6 @@
 {
   "name": "rex-state",
-  "version": "0.0.4",
+  "version": "0.0.4-beta-4",
   "description": "The Simplest state management tool for React",
   "scripts": {
     "build": "microbundle",
@@ -17,7 +17,7 @@
   "repository": "DaniAkash/rex-state",
   "license": "MIT",
   "files": [
-    "./lib"
+    "lib"
   ],
   "keywords": [
     "react",
