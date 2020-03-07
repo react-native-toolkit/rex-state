@@ -407,11 +407,11 @@ That concludes this tutorial. The final working code is available for you to try
 
 ## TODO:
 
-I'm working hard to make this library PROD ready. Stay tuned! ✨
+Everything is awesome! yay 🎉
 
 - [x] Unit Tests
 - [x] Performance Testing
-- [ ] CI/CD Setup - in progress
+- [x] CI/CD Setup
 
 ## Running the Example App
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { render, cleanup } from "@testing-library/react";
+import { render, cleanup, act } from "@testing-library/react";
 
 const testRunner = (title: string, useRex: any, createRexStore: any) => {
   const useInput = (defaultValue: string = "") => {
@@ -73,7 +73,9 @@ const testRunner = (title: string, useRex: any, createRexStore: any) => {
     test("useInput", () => {
       const inputData = setupInputField();
       expect(inputData.value).toBe("");
-      inputData.updateValue("Foo Bar!");
+      act(() => {
+        inputData.updateValue("Foo Bar!");
+      });
       expect(inputData.value).toBe("Foo Bar!");
       expect(inputData.title).toBe("Sample Input");
     });
@@ -81,7 +83,9 @@ const testRunner = (title: string, useRex: any, createRexStore: any) => {
     test("useInput with default value", () => {
       const inputData = setupInputField({ defaultValue: "Text goes here..." });
       expect(inputData.value).toBe("Text goes here...");
-      inputData.updateValue("Foo Bar!");
+      act(() => {
+        inputData.updateValue("Foo Bar!");
+      });
       expect(inputData.value).toBe("Foo Bar!");
       expect(inputData.title).toBe("Sample Input");
     });
@@ -89,7 +93,9 @@ const testRunner = (title: string, useRex: any, createRexStore: any) => {
     test("useInput as store", () => {
       const inputData = setupInputFieldWithStore();
       expect(inputData.value).toBe("");
-      inputData.updateValue("Foo Bar!");
+      act(() => {
+        inputData.updateValue("Foo Bar!");
+      });
       expect(inputData.value).toBe("Foo Bar!");
       expect(inputData.title).toBe("Sample Input");
     });
