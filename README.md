@@ -22,19 +22,21 @@ The simplest state management tool for React. Built completely with React Hooks!
 
 ---
 
-### 🚧 Work in Progress 👷🏽‍♂️🏗
-
-This library is currently under heavy testing. Hence it is **NOT** recommended for PROD _just yet_... You are welcome to Install & Try out the project in the mean time!
-
 ### PRs Welcome 👍✨
 
 </div>
 
+- 📦[Installation](#Installation)
+- ℹ️[Usage](#Usage)
+- 👨🏽‍🏫[Tutorial](#Tutorial)
+- 💡[Examples](#Examples)
+- ✨[Why Rex State?](#Why-Rex-State?)
+
 ## Motivation
 
-React is a simple and straightforward library for building UI however, the current solutions to manage states aren't quite simple or straightforward as React.
+React is a simple and straightforward library for building UI however, the current solutions require you to learn additional concepts and add more dependencies to your project.
 
-Rex State aims to be the simplest way to manage states in your React Project.
+Rex State aims to leverage the simplicity of React Hooks, letting you manage state without having to use any new concepts or huge dependencies and it also encourages good programming principles!
 
 ## Requirements
 
@@ -62,6 +64,28 @@ import useRex, { createRexStore } from "rex-state";
 - [`createRexStore`](#createrexstore)
 
 Rex State is inspired by React's simplicity in building UI. Hence it borrows one of the most common React-ish style for creating & updating states.
+
+## `useRex` Hook
+
+`useRex` is very similar to the React's own `useState` hook. However, it is built to work with `objects` just like `state` & `setState` from traditional react class components.
+
+You can initialize `useRex` hook with an object such as ﹣
+
+```jsx
+const [state, setState] = useRex({
+  name: "",
+  email: "",
+  phone: ""
+});
+```
+
+Now if you want to update only the name property, you can do ﹣
+
+```
+setState({ name: "John Doe" });
+```
+
+This works similar to how `this.setState` works in class components and updates the `name` property of your state. However, unlike the class components this operation is synchronous.
 
 ### This is a classic React functional component with `useState` hook
 
@@ -128,28 +152,6 @@ This decouples the UI from the State and also provides a nice & familiar way to 
 
 > Try this example directly in [CodeSandbox](https://codesandbox.io/s/rex-state-input-70whd)
 
-## `useRex` Hook
-
-`useRex` is very similar to the React's own `useState` hook. However, it is built to work with `objects` just like `state` & `setState` from traditional react class components.
-
-You can initialize `useRex` hook with an object such as ﹣
-
-```jsx
-const [state, setState] = useRex({
-  name: "",
-  email: "",
-  phone: ""
-});
-```
-
-Now if you want to update only the name property, you can do ﹣
-
-```
-setState({ name: "John Doe" });
-```
-
-This works similar to how `this.setState` works in class components and updates the `name` property of your state. However, unlike the class components this operation is synchronous.
-
 ### Building a re-usable hook
 
 The pattern that was used in the example code above lets you build re-usable hooks that can be easily shared across multiple components. Consider the following example where we will build a hook for a counter ﹣
@@ -190,15 +192,24 @@ const Counter = () => {
 };
 ```
 
-> Try this example directly in [CodeSandbox](https://codesandbox.io/s/rex-state-counter-8cubi)
+> Try this example directly in [CodeSandbox][simple-counter]
 
 > Since `useRex` hook is built only to simplify managing large state objects. You can follow this pattern without rex-state too!
 
-## Centralized state management with Rex State
+## `createRexStore`
+
+`createRexStore` accepts your hook as the argument and returns an object with two properties ﹣
+
+- `RexProvider` which is a "[Provider](https://reactjs.org/docs/context.html#contextprovider)" component that will let you pass your hook down the React component tree to all the components by storing it in React context.
+- `useStore` hook will simply fetch your hook from the React context into your current component.
+
+## Tutorial
+
+### Centralized state management with Rex State
 
 Rex State simplifies building re-usable hooks. However, it also provides an easy to use API to build a centralized state that can be easily shared across your entire application.
 
-> tl;dr ﹣ The code in the below example available for you to try in [CodeSandbox](https://codesandbox.io/s/centralized-state-management-with-rex-state-tkfvq)
+> tl;dr ﹣ The code in the below example available for you to try in [CodeSandbox][central-state-management]
 
 Follow the below example to create a centralized state with Rex State ﹣
 
@@ -276,18 +287,15 @@ const useToDoList = () => {
 };
 ```
 
+> Read about [`useRex`](#userex-hook) in detail
+
 Next step is to make this hook available to all components. Rex State comes with `createRexStore` module for this purpose which will create a store with your hook.
 
 ```jsx
 const { RexProvider, useStore } = createRexStore(useToDoList);
 ```
 
-## `createRexStore`
-
-`createRexStore` accepts your hook as the argument and returns an object with two properties ﹣
-
-- `RexProvider` which is a "[Provider](https://reactjs.org/docs/context.html#contextprovider)" component that will let you pass your hook down the React component tree to all the components by storing it in React context.
-- `useStore` hook will simply fetch your hook from the React context into your current component.
+> Read about [`createRexStore`](#createrexstore) in detail
 
 ### React part of the App
 
@@ -395,12 +403,18 @@ const TasksStats = () => {
 };
 ```
 
-That concludes this tutorial. The final working code is available for you to try out in **[CodeSandbox](https://codesandbox.io/s/centralized-state-management-with-rex-state-tkfvq)**
+That concludes this tutorial. The final working code is available for you to try out in **[CodeSandbox][central-state-management]**
 
 > You can also create multiple stores. Just rename `RexProvider` & `useStore` properties of each store before you export them to other components 😁
 
-## Why Rex State over other state management tools?
+## Examples
 
+- [Simple Counter][simple-counter]
+- [Rex State for Centralized State Management][central-state-management]
+
+## Why Rex State?
+
+- It's Tiny!
 - Simple & un-opinionated
 - As fast as React
 - Built for projects of all sizes!
@@ -413,19 +427,12 @@ Everything is awesome! yay 🎉
 - [x] Performance Testing
 - [x] CI/CD Setup
 
-## Running the Example App
-
-- Clone this Repo
-- Run `yarn` to install dependencies
-- Run `yarn build` to build the project (ignore the warnings for now 😅)
-- Run `yarn link` - This should register the package in your machine
-- Move into the example folder `cd rex-example` & run `yarn link rex-state` to link the package
-- Finally run `yarn && yarn start` in the `rex-example/` directory to start the example project
-
 ## Licenses
 
 MIT © [DaniAkash][twitter]
 
+[simple-counter]: https://codesandbox.io/s/rex-state-counter-8cubi
+[central-state-management]: https://codesandbox.io/s/centralized-state-management-with-rex-state-tkfvq
 [build]: https://github.com/DaniAkash/rex-state/actions
 [build-badge]: https://github.com/daniakash/rex-state/workflows/build/badge.svg
 [coverage-badge]: https://api.codeclimate.com/v1/badges/f7954c1e1686cabeeb97/test_coverage
