@@ -26,11 +26,11 @@ The simplest state management tool for React. Built completely with React Hooks!
 
 </div>
 
-- 📦[Installation](#Installation)
-- ℹ️[Usage](#Usage)
-- 👨🏽‍🏫[Tutorial](#Tutorial)
-- 💡[Examples](#Examples)
-- ✨[Why Rex State?](#Why-Rex-State?)
+- 📦 [Installation](#Installation)
+- ℹ️ [Usage](#Usage)
+- 👨🏽‍🏫 [Tutorial](#Tutorial)
+- 💡 [Examples](#Examples)
+- ✨ [Why Rex State?](#Why-Rex-State)
 
 ## Motivation
 
