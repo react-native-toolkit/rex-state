@@ -6,11 +6,11 @@ import React, {
   Dispatch
 } from "react";
 
-const useRex = <T extends object, K extends keyof T>(
+const useRex = <T extends object>(
   defaultState: T
-): [T, Dispatch<Partial<Pick<T, K>>>] => {
+): [T, Dispatch<Partial<Pick<T, keyof T>>>] => {
   const [state, setState] = useReducer(
-    (oldState: T, stateUpdate: Partial<Pick<T, K>>) => {
+    (oldState: T, stateUpdate: Partial<Pick<T, keyof T>>) => {
       return {
         ...oldState,
         ...stateUpdate
