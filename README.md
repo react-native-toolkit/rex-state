@@ -1,8 +1,6 @@
-<h1 align="center">
-🦖 Rex State
-</h1>
-
 <div align="center">
+
+# 🦖 Rex State
 
 React States on Steroids 💉💊
 

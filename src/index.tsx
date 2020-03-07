@@ -6,6 +6,11 @@ import React, {
   Dispatch
 } from "react";
 
+// @ts-ignore - workaround for the issue with microbundle - https://github.com/developit/microbundle/issues/306
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 const useRex = <T extends object>(
   defaultState: T
 ): [T, Dispatch<Partial<Pick<T, keyof T>>>] => {
