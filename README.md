@@ -409,6 +409,7 @@ That concludes this tutorial. The final working code is available for you to try
 
 - [Simple Counter][simple-counter]
 - [Rex State for Centralized State Management][central-state-management]
+- [Usage with Typescript][ts-example]
 
 ## Why Rex State?
 
@@ -429,6 +430,7 @@ Everything is awesome! yay 🎉
 
 MIT © [DaniAkash][twitter]
 
+[ts-example]: https://github.com/DaniAkash/rex-state-ts
 [simple-counter]: https://codesandbox.io/s/rex-state-counter-8cubi
 [central-state-management]: https://codesandbox.io/s/centralized-state-management-with-rex-state-tkfvq
 [build]: https://github.com/DaniAkash/rex-state/actions
