@@ -4,7 +4,7 @@ import React, {
   ReactNode,
   useReducer,
   Dispatch,
-  ReactElement,
+  ComponentType,
   useMemo
 } from "react";
 
@@ -29,7 +29,11 @@ export const createRexStore = <T extends object>(
 ): {
   RexProvider: ({ children }: { children: ReactNode }) => JSX.Element;
   useStore: () => T;
-  injectStore: any;
+  injectStore: <K extends keyof T>(
+    keys: K | K[]
+  ) => <P extends object>(
+    WrappedComponent: React.ComponentType<P>
+  ) => React.ComponentType<P & Partial<Pick<T, K>>>;
 } => {
   const RexContext = createContext<ReturnType<() => T>>({} as T);
   const { Provider } = RexContext;
@@ -45,31 +49,25 @@ export const createRexStore = <T extends object>(
   };
 
   const injectStore = <K extends keyof T>(keys: K | K[]) => {
-    return (WrappedComponent: React.ComponentType<object>) => {
-      if (typeof keys === "string") {
-        return (props: object) => {
-          const storeData = useStore();
-          const extraProps = {
-            [keys]: storeData[keys]
-          };
-          return useMemo(
-            () => <WrappedComponent {...props} {...extraProps} />,
-            [...Object.values(props), extraProps[keys]]
-          );
-        };
-      } else if (Array.isArray(keys)) {
-        return (props: object) => {
-          const storeData = useStore();
-          const extraProps: object = keys.reduce((acc: any, key) => {
-            acc[key] = storeData[key];
-            return acc;
-          }, {} as any);
-          return useMemo(
-            () => <WrappedComponent {...props} {...extraProps} />,
-            [...Object.values(props), ...Object.values(extraProps)]
-          );
-        };
-      }
+    type PartialProps = Partial<Pick<T, K>>;
+
+    return <P extends object>(
+      WrappedComponent: ComponentType<P>
+    ): ComponentType<P & PartialProps> => {
+      return (props: P) => {
+        const storeData = useStore();
+        const extraProps: PartialProps = Array.isArray(keys)
+          ? keys.reduce((acc: PartialProps, key) => {
+              acc[key] = storeData[key];
+              return acc;
+            }, {} as PartialProps)
+            // @ts-ignore
+          : ({ [keys]: storeData[keys] } as { [index: K]: T[K] });
+        return useMemo(() => <WrappedComponent {...props} {...extraProps} />, [
+          ...Object.values(props),
+          ...Object.values(extraProps)
+        ]);
+      };
     };
   };
 
