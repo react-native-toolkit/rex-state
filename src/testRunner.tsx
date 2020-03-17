@@ -44,7 +44,7 @@ const testRunner = (title: string, useRex: any, createRexStore: any) => {
     return returnValue;
   };
 
-  const { RexProvider, useStore } = createRexStore(useInput);
+  const { RexProvider, useStore, injectStore } = createRexStore(useInput);
 
   const InputFieldWithStore = ({
     children
@@ -65,6 +65,65 @@ const testRunner = (title: string, useRex: any, createRexStore: any) => {
       </RexProvider>
     );
     return returnValue;
+  };
+
+  const InputFieldWithInject = injectStore(["value", "updateValue"])(
+    (fieldProps: {
+      children: ({
+        value,
+        updateValue
+      }: {
+        value: useInputReturnType["value"];
+        updateValue: useInputReturnType["updateValue"];
+      }) => null;
+      value: useInputReturnType["value"];
+      updateValue: useInputReturnType["updateValue"];
+    }) =>
+      fieldProps.children({
+        value: fieldProps.value,
+        updateValue: fieldProps.updateValue
+      })
+  );
+
+  const setupInputFieldWithInject = () => {
+    const returnValue = {} as {
+      value: useInputReturnType["value"];
+      updateValue: useInputReturnType["updateValue"];
+    };
+
+    const TitleComponent = injectStore("title")(
+      (titleProps: { title: useInputReturnType["title"] }) => {
+        return (
+          <>
+            <h1>{titleProps.title}</h1>
+            <p>{Math.random()}</p>
+          </>
+        );
+      }
+    );
+
+    const InputFieldComponent = () => {
+      return (
+        <InputFieldWithInject>
+          {(val: object) => {
+            Object.assign(returnValue, val);
+            return null;
+          }}
+        </InputFieldWithInject>
+      );
+    };
+
+    const tree = render(
+      <RexProvider>
+        <TitleComponent />
+        <InputFieldComponent />
+      </RexProvider>
+    );
+
+    return {
+      returnValue,
+      tree
+    };
   };
 
   afterEach(cleanup);
@@ -98,6 +157,33 @@ const testRunner = (title: string, useRex: any, createRexStore: any) => {
       });
       expect(inputData.value).toBe("Foo Bar!");
       expect(inputData.title).toBe("Sample Input");
+    });
+
+    test("useInput with injectStore", () => {
+      const { returnValue: inputData, tree } = setupInputFieldWithInject();
+      expect(inputData.value).toBe("");
+
+      /**
+       * The tree contains a `TitleComponent` which should not
+       * re-render when the input data is updated.
+       *
+       * To ensure that, a random number is generated in the dom tree
+       * and is compared before & after the update of the input data.
+       */
+      const { container } = tree;
+      const pTagText = container.querySelector("p");
+      const titleComponentStats = pTagText?.innerHTML;
+
+      act(() => {
+        inputData.updateValue("Foo Bar!");
+      });
+      expect(inputData.value).toBe("Foo Bar!");
+
+      const { container: updatedContainer } = tree;
+      const updatedPTagText = updatedContainer.querySelector("p");
+      const updatedTitleComponentStats = updatedPTagText?.innerHTML;
+
+      expect(titleComponentStats).toBe(updatedTitleComponentStats);
     });
   });
 };
