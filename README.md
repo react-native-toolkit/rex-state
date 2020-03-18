@@ -494,8 +494,6 @@ This optimization is implemented based on the second option of [Dan Abramov's su
 
 ## TODO:
 
-Everything is awesome! yay 🎉
-
 - [x] Unit Tests
 - [x] Performance Testing
 - [x] CI/CD Setup
