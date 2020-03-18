@@ -28,6 +28,7 @@ The simplest state management tool for React. Built completely with React Hooks!
 - ℹ️ [Usage](#usage)
 - 👨🏽‍🏫 [Tutorial](#tutorial)
 - 💡 [Examples](#examples)
+- 🏎 [Performance](#performance)
 - ✨ [Why Rex State?](#why-rex-state)
 
 ## Motivation
@@ -196,10 +197,11 @@ const Counter = () => {
 
 ## `createRexStore`
 
-`createRexStore` accepts your hook as the argument and returns an object with two properties ﹣
+`createRexStore` accepts your hook as the argument and returns an object with three properties ﹣
 
-- `RexProvider` which is a "[Provider](https://reactjs.org/docs/context.html#contextprovider)" component that will let you pass your hook down the React component tree to all the components by storing it in React context.
-- `useStore` hook will simply fetch your hook from the React context into your current component.
+- `RexProvider` which is a "[`Provider`](https://reactjs.org/docs/context.html#contextprovider)" component that will let you pass your hook down the React component tree to all the components by storing it in React context.
+- `injectStore` is an [Higher Order Component](https://reactjs.org/docs/higher-order-components.html) (HOC) which will pass the required props from the hook in the React Context to your component.
+- `useStore` hook will fetch your hook from the React context into your current component. This is built on top of the react "[`useContext`](https://reactjs.org/docs/hooks-reference.html#usecontext)" hook and comes with it's own [performance concerns](https://github.com/facebook/react/issues/15156). Read the [performance](#performance) section for more info.
 
 ## Tutorial
 
@@ -255,8 +257,11 @@ const useToDoList = () => {
     get tasks() {
       return state.tasks;
     },
-    get completedTasks() {
-      return state.tasks.filter(task => task.isComplete);
+    get tasksCount() {
+      return state.tasks.length;
+    },
+    get completedTasksCount() {
+      return state.tasks.filter(task => task.isComplete).length;
     },
     addTask(newTask) {
       const newTaskList = [
@@ -290,7 +295,7 @@ const useToDoList = () => {
 Next step is to make this hook available to all components. Rex State comes with `createRexStore` module for this purpose which will create a store with your hook.
 
 ```jsx
-const { RexProvider, useStore } = createRexStore(useToDoList);
+const { RexProvider, injectStore } = createRexStore(useToDoList);
 ```
 
 > Read about [`createRexStore`](#createrexstore) in detail
@@ -321,22 +326,28 @@ export default function App() {
 
 #### Title
 
-We need the task title inside our title components. This time we can simply call `useStore` hook which will return our `useToDoList` hook that contains the `title` property
+We need the task title inside our title components. A regular title component will look something like this ﹣
 
 ```jsx
-const Title = () => {
-  const { title } = useStore();
+const Title = ({ title }) => {
   return <h1>{title}</h1>;
 };
 ```
 
-#### InputField
-
-In this component we need to use the `addTask` method returned by our hook to add a new task. Since we have `useStore`, this is straightforward and you just have to call this method when users click the add button
+Now the `title` prop of our component is basically the getter property `title` returned from the `useToDoList` hook. Here we can use the `injectStore` HOC to inject the `title` prop directly to the HOC as follows ﹣
 
 ```jsx
-const InputField = () => {
-  const { addTask } = useStore();
+const Title = injectStore("title")(({ title }) => {
+  return <h1>{title}</h1>;
+});
+```
+
+#### InputField
+
+In this component we need to use the `addTask` method returned by our hook to add a new task.
+
+```jsx
+const InputField = injectStore("addTask")(({ addTask }) => {
   const [text, updateText] = useState("");
 
   const submit = () => {
@@ -355,36 +366,37 @@ const InputField = () => {
       <button onClick={submit}>Add</button>
     </div>
   );
-};
+});
 ```
 
 > Since we are using the values returned by hooks, all the components are already subscribed to the state changes and the new task will be reflected in UI without any complex stuff 👍
 
 #### TasksList
 
-We now have to use the `tasks` property to display the list of tasks. For toggle option we just have to call `toggleTask` method with the task index
+We now have to use the `tasks` property to display the list of tasks. For toggle option we just have to call `toggleTask` method with the task index. To pass multiple props from our `useToDoList` hook, we have to use an array in the `injectStore` HOC as follows.
 
 ```jsx
-const TasksList = () => {
-  const { tasks, toggleTask } = useStore();
-  return (
-    <ul>
-      {tasks.map((item, itemIndex) => {
-        const toggle = () => toggleTask(itemIndex);
-        return (
-          <li key={itemIndex}>
-            <input
-              type="checkbox"
-              onChange={toggle}
-              checked={item.isComplete}
-            />
-            {item.task}
-          </li>
-        );
-      })}
-    </ul>
-  );
-};
+const TasksList = injectStore(["tasks", "toggleTask"])(
+  ({ tasks, toggleTask }) => {
+    return (
+      <ul>
+        {tasks.map((item, itemIndex) => {
+          const toggle = () => toggleTask(itemIndex);
+          return (
+            <li key={itemIndex}>
+              <input
+                type="checkbox"
+                onChange={toggle}
+                checked={item.isComplete}
+              />
+              {item.task}
+            </li>
+          );
+        })}
+      </ul>
+    );
+  }
+);
 ```
 
 #### TasksStats
@@ -392,24 +404,86 @@ const TasksList = () => {
 You probably already know how to build this one 😎
 
 ```jsx
-const TasksStats = () => {
-  const { tasks, completedTasks } = useStore();
-
-  return (
-    <div>{`Total: ${tasks.length}, Completed: ${completedTasks.length}`}</div>
-  );
-};
+const TasksStats = injectStore(["tasksCount", "completedTasksCount"])(
+  ({ tasksCount, completedTasksCount }) => {
+    return (
+      <div>{`Total: ${tasksCount}, Completed: ${completedTasksCount}`}</div>
+    );
+  }
+);
 ```
 
 That concludes this tutorial. The final working code is available for you to try out in **[CodeSandbox][central-state-management]**
 
-> You can also create multiple stores. Just rename `RexProvider` & `useStore` properties of each store before you export them to other components 😁
+> You can also create multiple stores. Just rename `RexProvider` & `injectStore` properties of each store before you export them to other components 😁
 
 ## Examples
 
 - [Simple Counter][simple-counter]
 - [Rex State for Centralized State Management][central-state-management]
 - [Usage with Typescript][ts-example]
+- [How to `useStore`][usestore-example]
+
+## Performance
+
+Rex State's `injectStore` HOC returns a memoized component (using [`useMemo`](https://reactjs.org/docs/hooks-reference.html#usememo)) which ensures the component is re-rendered only when the property that the component is dependent on is updated.
+
+Consider you have a hook such as ﹣
+
+```jsx
+const useInfo = () => {
+  const [state, setState] = useRex({
+    title: "My Title",
+    description: "Some Description"
+  });
+
+  return {
+    get title() {
+      return state.title;
+    },
+    get description() {
+      return state.description;
+    },
+    updateDescription(newDescription) {
+      setState({ description: newDescription });
+    }
+  };
+};
+```
+
+A component that is dependent on the `title` alone will should not be affected by the updates to the `description` state using `updateDescription` method. `injectStore` ensures such re-renders are prevented.
+
+However, this optimization is only applicable to primitive data types since non-primitive data types will not pass the [javascript equality comparisons](https://alligator.io/react/usememo/#referential-equality).
+
+This means the following code is efficent 👍﹣
+
+```jsx
+return {
+  get title() {
+    return state.title;
+  },
+  get description() {
+    return state.description;
+  }
+};
+```
+
+The following code is inefficient 🙅 ﹣
+
+```jsx
+return {
+  get data() {
+    return {
+      title: state.title,
+      description: state.description
+    };
+  }
+};
+```
+
+This optimization is implemented based on the second option of [Dan Abramov's suggestion](https://github.com/facebook/react/issues/15156#issuecomment-474590693).
+
+> `useStore` is basically a direct implementation of `useContext` without any such optimization. You can refer [this example][usestore-example] on how to use `useStore` and you can apply a different optimization ⚡️ if you want! ✨
 
 ## Why Rex State?
 
@@ -432,7 +506,8 @@ MIT © [DaniAkash][twitter]
 
 [ts-example]: https://github.com/DaniAkash/rex-state-ts
 [simple-counter]: https://codesandbox.io/s/rex-state-counter-8cubi
-[central-state-management]: https://codesandbox.io/s/centralized-state-management-with-rex-state-tkfvq
+[central-state-management]: https://codesandbox.io/s/state-management-with-rex-state-4ivcd
+[usestore-example]: https://codesandbox.io/s/centralized-state-management-with-rex-state-tkfvq
 [build]: https://github.com/DaniAkash/rex-state/actions
 [build-badge]: https://github.com/daniakash/rex-state/workflows/build/badge.svg
 [coverage-badge]: https://api.codeclimate.com/v1/badges/f7954c1e1686cabeeb97/test_coverage
