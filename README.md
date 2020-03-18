@@ -499,6 +499,7 @@ Everything is awesome! yay 🎉
 - [x] Unit Tests
 - [x] Performance Testing
 - [x] CI/CD Setup
+- [ ] Fix Types ☹️
 
 ## Licenses
 
