@@ -5,7 +5,9 @@ import React, {
   useReducer,
   Dispatch,
   ComponentType,
-  useMemo
+  useMemo,
+  FC,
+  forwardRef
 } from "react";
 
 const useRex = <T extends object>(
@@ -54,20 +56,30 @@ export const createRexStore = <T extends object>(
     return <P extends object>(
       WrappedComponent: ComponentType<P>
     ): ComponentType<P & PartialProps> => {
-      return (props: P) => {
+      const MemoizedComponent: FC<P & PartialProps> = (props: P, ref) => {
         const storeData = useStore();
         const extraProps: PartialProps = Array.isArray(keys)
           ? keys.reduce((acc: PartialProps, key) => {
               acc[key] = storeData[key];
               return acc;
             }, {} as PartialProps)
-            // @ts-ignore
+          // @ts-ignore
           : ({ [keys]: storeData[keys] } as { [index: K]: T[K] });
-        return useMemo(() => <WrappedComponent {...props} {...extraProps} />, [
-          ...Object.values(props),
-          ...Object.values(extraProps)
-        ]);
+        return useMemo(
+          () => <WrappedComponent ref={ref} {...props} {...extraProps} />,
+          [...Object.values(props), ...Object.values(extraProps)]
+        );
       };
+
+      const displayName = WrappedComponent.displayName;
+      MemoizedComponent.displayName = `InjectStore${
+        displayName ? `(${displayName})` : ""
+      }`;
+      const FinalComponent = (forwardRef(
+        MemoizedComponent
+      ) as any) as ComponentType<P & PartialProps>;
+
+      return FinalComponent;
     };
   };
 
