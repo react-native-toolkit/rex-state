@@ -1,6 +1,6 @@
 {
   "name": "rex-state",
-  "version": "0.0.6",
+  "version": "0.0.6-alpha-5",
   "description": "The Simplest state management tool for React",
   "scripts": {
     "build": "rollup -c rollup.config.js",
@@ -47,6 +47,7 @@
     "react": "16.13.0",
     "react-dom": "16.13.0",
     "rollup": "2.0.2",
+    "rollup-plugin-babel": "4.4.0",
     "rollup-plugin-terser": "5.2.0",
     "typescript": "3.7.5"
   },
