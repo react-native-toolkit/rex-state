@@ -126,6 +126,23 @@ const testRunner = (title: string, useRex: any, createRexStore: any) => {
     };
   };
 
+  const setupErrorComponent = () => {
+    const TitleComponent = injectStore("title")(
+      (titleProps: { title: useInputReturnType["title"] }) => {
+        return (
+          <>
+            <h1>{titleProps.title}</h1>
+            <p>{Math.random()}</p>
+          </>
+        );
+      }
+    );
+
+    const tree = render(<TitleComponent />);
+
+    return tree;
+  };
+
   afterEach(cleanup);
 
   describe(title, () => {
@@ -184,6 +201,14 @@ const testRunner = (title: string, useRex: any, createRexStore: any) => {
       const updatedTitleComponentStats = updatedPTagText?.innerHTML;
 
       expect(titleComponentStats).toBe(updatedTitleComponentStats);
+    });
+
+    test("Component throws the right error message if Provider is missing", () => {
+      const renderModule = () => {
+        const result = setupErrorComponent();
+        return result;
+      };
+      expect(renderModule).toThrow();
     });
   });
 };

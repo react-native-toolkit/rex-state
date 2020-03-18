@@ -37,11 +37,16 @@ export const createRexStore = <T extends object>(
     WrappedComponent: React.ComponentType<P>
   ) => React.ComponentType<P & Partial<Pick<T, K>>>;
 } => {
-  const RexContext = createContext<ReturnType<() => T>>({} as T);
+  const RexContext = createContext<ReturnType<() => T>>((null as any) as T);
   const { Provider } = RexContext;
 
   const useStore = () => {
     const store = useContext(RexContext);
+    if (!store) {
+      throw new Error(
+        "Component must be wrapped with a suitable <RexProvider>"
+      );
+    }
     return store;
   };
 
