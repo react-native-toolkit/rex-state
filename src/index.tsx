@@ -7,7 +7,7 @@ import React, {
   ComponentType,
   useMemo,
   FC,
-  forwardRef
+  forwardRef,
 } from "react";
 
 const useRex = <T extends object>(
@@ -17,7 +17,7 @@ const useRex = <T extends object>(
     (oldState: T, stateUpdate: Partial<Pick<T, keyof T>>) => {
       return {
         ...oldState,
-        ...stateUpdate
+        ...stateUpdate,
       };
     },
     defaultState
@@ -27,7 +27,8 @@ const useRex = <T extends object>(
 };
 
 export const createRexStore = <T extends object>(
-  useRexState: () => T
+  useRexState: (...args: any[]) => T,
+  ...defaultArgs: any[]
 ): {
   RexProvider: ({ children }: { children: ReactNode }) => JSX.Element;
   useStore: () => T;
@@ -51,7 +52,7 @@ export const createRexStore = <T extends object>(
   };
 
   const RexProvider = ({ children }: { children: ReactNode }) => {
-    const state = useRexState();
+    const state = useRexState(...defaultArgs);
     return <Provider value={state}>{children}</Provider>;
   };
 
@@ -68,8 +69,8 @@ export const createRexStore = <T extends object>(
               acc[key] = storeData[key];
               return acc;
             }, {} as PartialProps)
-          // @ts-ignore
-          : ({ [keys]: storeData[keys] } as { [index: K]: T[K] });
+          : // @ts-ignore
+            ({ [keys]: storeData[keys] } as { [index: K]: T[K] });
         return useMemo(
           () => <WrappedComponent ref={ref} {...props} {...extraProps} />,
           [...Object.values(props), ...Object.values(extraProps)]
