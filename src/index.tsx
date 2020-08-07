@@ -26,11 +26,16 @@ const useRex = <T extends object>(
   return [state, setState];
 };
 
-export const createRexStore = <T extends object>(
-  useRexState: (...args: any[]) => T,
-  ...defaultArgs: any[]
+export const createRexStore = <T extends object, V>(
+  useRexState: (value: V) => T
 ): {
-  RexProvider: ({ children }: { children: ReactNode }) => JSX.Element;
+  RexProvider: ({
+    children,
+    value,
+  }: {
+    children: ReactNode;
+    value: V;
+  }) => JSX.Element;
   useStore: () => T;
   injectStore: <K extends keyof T>(
     keys: K | K[]
@@ -51,8 +56,14 @@ export const createRexStore = <T extends object>(
     return store;
   };
 
-  const RexProvider = ({ children }: { children: ReactNode }) => {
-    const state = useRexState(...defaultArgs);
+  const RexProvider = ({
+    children,
+    value,
+  }: {
+    children: ReactNode;
+    value: V;
+  }) => {
+    const state = useRexState(value);
     return <Provider value={state}>{children}</Provider>;
   };
 
