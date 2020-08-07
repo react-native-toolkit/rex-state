@@ -1,6 +1,6 @@
 {
   "name": "rex-state",
-  "version": "0.0.7-beta-1",
+  "version": "0.0.7-beta-2",
   "description": "The Simplest state management tool for React",
   "scripts": {
     "build": "rollup -c rollup.config.js",
