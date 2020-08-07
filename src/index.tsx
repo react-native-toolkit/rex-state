@@ -82,6 +82,7 @@ export const createRexStore = <T extends object>(
         displayName ? `(${displayName})` : ""
       }`;
       const FinalComponent = (forwardRef(
+        // @ts-ignore
         MemoizedComponent
       ) as any) as ComponentType<P & PartialProps>;
 
