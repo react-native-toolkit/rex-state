@@ -5,7 +5,7 @@ export const createRexStore = <T extends object, V>(
 ): {
   RexProvider: ({
     children,
-    value
+    value,
   }: {
     children: ReactNode;
     value?: V;
@@ -27,7 +27,7 @@ export const createRexStore = <T extends object, V>(
 
   const RexProvider = ({
     children,
-    value
+    value,
   }: {
     children: ReactNode;
     value?: V;
@@ -38,5 +38,3 @@ export const createRexStore = <T extends object, V>(
 
   return { RexProvider, useStore };
 };
-
-export default useRex;
