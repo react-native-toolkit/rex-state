@@ -4,7 +4,7 @@
 
 React States on Steroids 💉💊
 
-The simplest state management tool for React. Built completely with React Hooks!
+Instantly convert your hook into a shared state between react components!
 
 [![Build Status][build-badge]][build]
 [![Maintainability][maintainability-badge]][maintainability-url]
@@ -33,9 +33,7 @@ The simplest state management tool for React. Built completely with React Hooks!
 
 ## Motivation
 
-React is a simple and straightforward library for building UI however, the current solutions require you to learn additional concepts and add more dependencies to your project.
-
-Rex State aims to leverage the simplicity of React Hooks, letting you manage state without having to use any new concepts or huge dependencies and it also encourages good programming principles!
+Rex State was initially built as a state management library. But after using it in many projects, its main purpose became creating hooks where the data returned by the hook can be shared across multiple react components.
 
 ## Requirements
 
@@ -54,154 +52,19 @@ npm i rex-state
 ## Usage
 
 ```jsx
-import useRex, { createRexStore } from "rex-state";
+import { createRexStore } from "rex-state";
 ```
 
 ### API ﹣
 
-- [`useRex`](#userex-hook)
 - [`createRexStore`](#createrexstore)
-
-Rex State is inspired by React's simplicity in building UI. Hence it borrows one of the most common React-ish style for creating & updating states.
-
-## `useRex` Hook
-
-`useRex` is very similar to the React's own `useState` hook. However, it is built to work with `objects` just like `state` & `setState` from traditional react class components.
-
-You can initialize `useRex` hook with an object such as ﹣
-
-```jsx
-const [state, setState] = useRex({
-  name: "",
-  email: "",
-  phone: ""
-});
-```
-
-Now if you want to update only the name property, you can do ﹣
-
-```
-setState({ name: "John Doe" });
-```
-
-This works similar to how `this.setState` works in class components and updates the `name` property of your state. However, unlike the class components this operation is synchronous.
-
-### This is a classic React functional component with `useState` hook
-
-```jsx
-import React, { useState } from "react";
-
-const InputField = () => {
-  const [value, updateValue] = useState("");
-
-  return (
-    <input
-      type="text"
-      value={value}
-      placeholder="Add Text here..."
-      onChange={event => updateValue(event.target.value)}
-    />
-  );
-};
-```
-
-The above component will render a simple input field and will take care of updating the input state when a new value is entered in the input field. However, the state & UI are tightly coupled together and it is impossible to reuse the same state logic to a different component.
-
-### This is the same component using Rex State
-
-```jsx
-import React from "react";
-import useRex from "rex-state";
-
-const useInput = () => {
-  const [state, setState] = useRex({ value: "" });
-
-  return {
-    get value() {
-      return state.value;
-    },
-    updateValue(value) {
-      setState({ value });
-    }
-  };
-};
-
-const InputField = () => {
-  const { value, updateValue } = useInput();
-
-  return (
-    <input
-      type="text"
-      value={value}
-      placeholder="Add Text here..."
-      onChange={event => updateValue(event.target.value)}
-    />
-  );
-};
-
-export default InputField;
-```
-
-The functionality of the component remains unchanged, however we now have two entities.
-
-- `useInput` is a hook which is used to define your application state.
-- `InputField` is a functional React Component that uses `useInput` hook to render it's UI.
-
-This decouples the UI from the State and also provides a nice & familiar way to write an API to define & manage your states.
-
-> Try this example directly in [CodeSandbox](https://codesandbox.io/s/rex-state-input-70whd)
-
-### Building a re-usable hook
-
-The pattern that was used in the example code above lets you build re-usable hooks that can be easily shared across multiple components. Consider the following example where we will build a hook for a counter ﹣
-
-```jsx
-const useCounter = () => {
-  const [state, setState] = useRex({ count: 0 });
-
-  return {
-    get count() {
-      return state.count;
-    },
-    increment() {
-      setState({ count: state.count + 1 });
-    },
-    decrement() {
-      setState({ count: state.count - 1 });
-    }
-  };
-};
-```
-
-The `useCounter` hook contains the state for tracking your counter. It returns an object with three properties (including a [getter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get) for accessing the count)
-
-This hook can now be easily added into any functional react component as follows ﹣
-
-```jsx
-const Counter = () => {
-  const { count, increment, decrement } = useCounter();
-
-  return (
-    <div>
-      <button onClick={increment}>up</button>
-      <span>{count}</span>
-      <button onClick={decrement}>down</button>
-    </div>
-  );
-};
-```
-
-> Try this example directly in [CodeSandbox][simple-counter]
-
-> Since `useRex` hook is built only to simplify managing large state objects. You can follow this pattern without rex-state too!
 
 ## `createRexStore`
 
-`createRexStore` accepts your hook as the argument and returns an object with three properties ﹣
+`createRexStore` accepts your hook as the argument and returns an object with two properties ﹣
 
 - `RexProvider` which is a "[`Provider`](https://reactjs.org/docs/context.html#contextprovider)" component that will let you pass your hook down the React component tree to all the components by storing it in React context.
-- `injectStore` is an [Higher Order Component](https://reactjs.org/docs/higher-order-components.html) (HOC) which will pass the required props from the hook in the React Context to your component.
-- `useStore` hook will fetch your hook from the React context into your current component. This is built on top of the react "[`useContext`](https://reactjs.org/docs/hooks-reference.html#usecontext)" hook and comes with it's own [performance concerns](https://github.com/facebook/react/issues/15156). Read the [performance](#performance) section for more info.
+- `useStore` hook will fetch your hook from the React context into your current component. This is built on top of the react "[`useContext`](https://reactjs.org/docs/hooks-reference.html#usecontext)" hook. Read the [performance](#performance) section for more info.
 
 ## Tutorial
 
@@ -221,12 +84,12 @@ Let's start with building a simple todo app which contains a list of tasks and t
 [
   {
     task: "Learning React",
-    isComplete: false
+    isComplete: false,
   },
   {
     task: "Learning Rex State",
-    isComplete: false
-  }
+    isComplete: false,
+  },
 ];
 ```
 
@@ -241,13 +104,13 @@ const useToDoList = () => {
     tasks: [
       {
         task: "Learning React",
-        isComplete: false
+        isComplete: false,
       },
       {
         task: "Learning Rex State",
-        isComplete: false
-      }
-    ]
+        isComplete: false,
+      },
+    ],
   });
 
   return {
@@ -261,15 +124,15 @@ const useToDoList = () => {
       return state.tasks.length;
     },
     get completedTasksCount() {
-      return state.tasks.filter(task => task.isComplete).length;
+      return state.tasks.filter((task) => task.isComplete).length;
     },
     addTask(newTask) {
       const newTaskList = [
         ...state.tasks,
         {
           task: newTask,
-          isComplete: false
-        }
+          isComplete: false,
+        },
       ];
       setState({ tasks: newTaskList });
     },
@@ -278,14 +141,14 @@ const useToDoList = () => {
         if (taskIndex === index) {
           return {
             task: item.task,
-            isComplete: !item.isComplete
+            isComplete: !item.isComplete,
           };
         } else {
           return item;
         }
       });
       setState({ tasks: updatedTaskList });
-    }
+    },
   };
 };
 ```
@@ -361,7 +224,7 @@ const InputField = injectStore("addTask")(({ addTask }) => {
         type="text"
         placeholder="Add New Task..."
         value={text}
-        onChange={e => updateText(e.target.value)}
+        onChange={(e) => updateText(e.target.value)}
       />
       <button onClick={submit}>Add</button>
     </div>
@@ -434,7 +297,7 @@ Consider you have a hook such as ﹣
 const useInfo = () => {
   const [state, setState] = useRex({
     title: "My Title",
-    description: "Some Description"
+    description: "Some Description",
   });
 
   return {
@@ -446,7 +309,7 @@ const useInfo = () => {
     },
     updateDescription(newDescription) {
       setState({ description: newDescription });
-    }
+    },
   };
 };
 ```
@@ -464,7 +327,7 @@ return {
   },
   get description() {
     return state.description;
-  }
+  },
 };
 ```
 
@@ -475,9 +338,9 @@ return {
   get data() {
     return {
       title: state.title,
-      description: state.description
+      description: state.description,
     };
-  }
+  },
 };
 ```
 
