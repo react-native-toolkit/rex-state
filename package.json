@@ -1,57 +1,143 @@
 {
   "name": "rex-state",
-  "version": "0.0.7-beta-3",
-  "description": "The Simplest state management tool for React",
-  "scripts": {
-    "prepare": "rollup -c rollup.config.js",
-    "test": "jest",
-    "coverage": "jest --coverage"
-  },
-  "main": "lib/index.js",
-  "umd:main": "lib/index.umd.js",
-  "module": "lib/index.m.js",
-  "source": "src/index.tsx",
-  "types": "lib/index.d.ts",
-  "author": "DaniAkash <s.daniakash@gmail.com> (https://github.com/DaniAkash)",
-  "repository": "DaniAkash/rex-state",
-  "license": "MIT",
+  "version": "0.0.7-beta-4",
+  "description": "Convert hooks into shared states between react components",
+  "main": "lib/commonjs/index",
+  "module": "lib/module/index",
+  "types": "lib/typescript/src/index.d.ts",
+  "react-native": "src/index",
+  "source": "src/index",
   "files": [
-    "lib"
+    "src",
+    "lib",
+    "android",
+    "ios",
+    "cpp",
+    "rex-state.podspec",
+    "!lib/typescript/example",
+    "!**/__tests__",
+    "!**/__fixtures__",
+    "!**/__mocks__"
   ],
+  "scripts": {
+    "test": "jest",
+    "typescript": "tsc --noEmit",
+    "lint": "eslint \"**/*.{js,ts,tsx}\"",
+    "prepare": "bob build",
+    "release": "release-it",
+    "example": "yarn --cwd example",
+    "pods": "cd example && pod-install --quiet",
+    "bootstrap": "yarn example && yarn && yarn pods"
+  },
   "keywords": [
-    "react",
-    "rex",
-    "state",
-    "state-management",
-    "react-state"
+    "react-native",
+    "ios",
+    "android"
   ],
+  "repository": "https://github.com/react-native-toolkit/rex-state",
+  "author": "DaniAkash <s.daniakash@gmail.com> (https://github.com/DaniAkash)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/react-native-toolkit/rex-state/issues"
+  },
+  "homepage": "https://github.com/react-native-toolkit/rex-state#readme",
   "devDependencies": {
-    "@babel/core": "7.11.1",
-    "@babel/preset-env": "7.11.0",
-    "@babel/preset-react": "7.10.4",
-    "@babel/preset-typescript": "7.10.4",
-    "@testing-library/react": "10.4.8",
-    "@types/jest": "26.0.10",
-    "@types/react": "16.9.46",
-    "@typescript-eslint/parser": "3.9.1",
-    "@wessberg/rollup-plugin-ts": "1.3.2",
-    "babel-jest": "26.3.0",
-    "eslint": "7.7.0",
-    "eslint-plugin-jest": "23.20.0",
-    "eslint-plugin-prettier": "3.1.4",
-    "eslint-plugin-tsc": "1.2.0",
-    "husky": "4.2.5",
-    "jest": "26.4.0",
-    "prettier": "2.0.5",
-    "pretty-quick": "2.0.1",
-    "react": "16.13.1",
-    "react-dom": "16.13.1",
-    "rollup": "2.26.3",
-    "rollup-plugin-babel": "4.4.0",
-    "rollup-plugin-terser": "7.0.0",
-    "typescript": "3.9.7"
+    "@commitlint/config-conventional": "^8.3.4",
+    "@react-native-community/bob": "^0.16.2",
+    "@react-native-community/eslint-config": "^2.0.0",
+    "@release-it/conventional-changelog": "^1.1.4",
+    "@testing-library/react": "11.0.2",
+    "@types/jest": "^26.0.0",
+    "@types/react": "^16.9.19",
+    "@types/react-native": "0.62.13",
+    "commitlint": "^8.3.5",
+    "eslint": "^7.2.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-prettier": "^3.1.3",
+    "husky": "^4.2.5",
+    "jest": "^26.0.1",
+    "pod-install": "^0.1.0",
+    "prettier": "^2.0.5",
+    "react": "16.11.0",
+    "react-native": "0.62.2",
+    "release-it": "^13.5.8",
+    "typescript": "^3.8.3"
   },
   "peerDependencies": {
-    "react": "16.13.1"
+    "react": "*",
+    "react-native": "*"
+  },
+  "jest": {
+    "preset": "react-native",
+    "modulePathIgnorePatterns": [
+      "<rootDir>/example/node_modules",
+      "<rootDir>/lib/"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS",
+      "pre-commit": "yarn lint && yarn typescript"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "release-it": {
+    "git": {
+      "commitMessage": "chore: release ${version}",
+      "tagName": "v${version}"
+    },
+    "npm": {
+      "publish": true
+    },
+    "github": {
+      "release": true
+    },
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "preset": "angular"
+      }
+    }
+  },
+  "eslintConfig": {
+    "extends": [
+      "@react-native-community",
+      "prettier"
+    ],
+    "rules": {
+      "prettier/prettier": [
+        "error",
+        {
+          "quoteProps": "consistent",
+          "singleQuote": true,
+          "tabWidth": 2,
+          "trailingComma": "es5",
+          "useTabs": false
+        }
+      ]
+    }
+  },
+  "eslintIgnore": [
+    "node_modules/",
+    "lib/"
+  ],
+  "prettier": {
+    "quoteProps": "consistent",
+    "singleQuote": true,
+    "tabWidth": 2,
+    "trailingComma": "es5",
+    "useTabs": false
+  },
+  "@react-native-community/bob": {
+    "source": "src",
+    "output": "lib",
+    "targets": [
+      "commonjs",
+      "module",
+      "typescript"
+    ]
   }
 }

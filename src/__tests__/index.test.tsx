@@ -1,14 +1,13 @@
-import React, { useState } from "react";
-// @ts-ignore
-import { render, cleanup, act } from "@testing-library/react";
-import { createRexStore } from "../src/index";
+import React, { useState } from 'react';
+import { render, cleanup, act } from '@testing-library/react';
+import { createRexStore } from '../index';
 
-const useInput = (defaultValue: string = "") => {
-  const [title] = useState("Sample Input");
+const useInput = (defaultValue: string = '') => {
+  const [title] = useState('Sample Input');
   const [value, setValue] = useState(defaultValue);
 
-  const updateValue = (value: string) => {
-    setValue(value);
+  const updateValue = (newValue: string) => {
+    setValue(newValue);
   };
 
   return {
@@ -64,7 +63,7 @@ const setupInputFieldWithStore = (props: { defaultValue?: string } = {}) => {
   return returnValue;
 };
 
-const setupInputFieldWithError = (props: { defaultValue?: string } = {}) => {
+const setupInputFieldWithError = () => {
   const returnValue = {} as useInputReturnType;
   render(
     <InputFieldWithStore>
@@ -79,50 +78,50 @@ const setupInputFieldWithError = (props: { defaultValue?: string } = {}) => {
 
 afterEach(cleanup);
 
-describe("Testing Rex State", () => {
-  it("useInput - no default value - without rex state", () => {
+describe('Testing Rex State', () => {
+  it('useInput - no default value - without rex state', () => {
     const inputData = setupInputField();
-    expect(inputData.title).toBe("Sample Input");
-    expect(inputData.value).toBe("");
+    expect(inputData.title).toBe('Sample Input');
+    expect(inputData.value).toBe('');
     act(() => {
-      inputData.updateValue("New Text");
+      inputData.updateValue('New Text');
     });
-    expect(inputData.value).toBe("New Text");
+    expect(inputData.value).toBe('New Text');
   });
 
-  it("useInput - with default value - without rex state", () => {
-    const inputData = setupInputField({ defaultValue: "Default Text" });
-    expect(inputData.title).toBe("Sample Input");
-    expect(inputData.value).toBe("Default Text");
+  it('useInput - with default value - without rex state', () => {
+    const inputData = setupInputField({ defaultValue: 'Default Text' });
+    expect(inputData.title).toBe('Sample Input');
+    expect(inputData.value).toBe('Default Text');
     act(() => {
-      inputData.updateValue("New Text");
+      inputData.updateValue('New Text');
     });
-    expect(inputData.value).toBe("New Text");
+    expect(inputData.value).toBe('New Text');
   });
 
-  it("useInput - no default value - with rex state", () => {
+  it('useInput - no default value - with rex state', () => {
     const inputData = setupInputFieldWithStore();
-    expect(inputData.title).toBe("Sample Input");
-    expect(inputData.value).toBe("");
+    expect(inputData.title).toBe('Sample Input');
+    expect(inputData.value).toBe('');
     act(() => {
-      inputData.updateValue("New Text");
+      inputData.updateValue('New Text');
     });
-    expect(inputData.value).toBe("New Text");
+    expect(inputData.value).toBe('New Text');
   });
 
-  it("useInput - with default value - with rex state", () => {
+  it('useInput - with default value - with rex state', () => {
     const inputData = setupInputFieldWithStore({
-      defaultValue: "Default Text",
+      defaultValue: 'Default Text',
     });
-    expect(inputData.title).toBe("Sample Input");
-    expect(inputData.value).toBe("Default Text");
+    expect(inputData.title).toBe('Sample Input');
+    expect(inputData.value).toBe('Default Text');
     act(() => {
-      inputData.updateValue("New Text");
+      inputData.updateValue('New Text');
     });
-    expect(inputData.value).toBe("New Text");
+    expect(inputData.value).toBe('New Text');
   });
 
-  it("useStore without provider - should throw error", () => {
+  it('useStore without provider - should throw error', () => {
     const renderModule = () => {
       const result = setupInputFieldWithError();
       return result;

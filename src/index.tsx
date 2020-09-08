@@ -1,4 +1,4 @@
-import React, { createContext, useContext, ReactNode } from "react";
+import React, { createContext, useContext, ReactNode } from 'react';
 
 export const createRexStore = <T extends object, V>(
   useRexState: (value?: V) => T
@@ -19,7 +19,7 @@ export const createRexStore = <T extends object, V>(
     const store = useContext(RexContext);
     if (!store) {
       throw new Error(
-        "Component must be wrapped with a suitable <RexProvider>"
+        'Component must be wrapped with a suitable <RexProvider>'
       );
     }
     return store;
