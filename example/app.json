@@ -2,21 +2,16 @@
   "name": "rex-state-example",
   "displayName": "RexState Example",
   "expo": {
+    "userInterfaceStyle": "automatic",
     "name": "rex-state-example",
     "slug": "rex-state-example",
     "description": "Example app for rex-state",
     "privacy": "public",
     "version": "1.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "ios": {
       "supportsTablet": true
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"]
   }
 }
