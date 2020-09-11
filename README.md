@@ -23,6 +23,12 @@ Convert hooks into shared states between react components
 [![Watch on GitHub][github-watch-badge]][github-watch]
 [![Twitter Follow][twitter-badge]][twitter]
 
+[![donate][coffee-badge]][coffee-url]
+[![sponsor][sponsor-badge]][sponsor-url]
+[![support][support-badge]][support-url]
+
+[![Storybook][storybook-badge]][website] [![Chromatic][chromatic-badge]][chromatic]
+
 ---
 
 ### PRs Welcome 👍✨
@@ -124,6 +130,12 @@ MIT © [DaniAkash][twitter]
 [codesandbox-example]: https://codesandbox.io/s/rex-counter-2m4zy?file=/src/App.js
 [storybook-url]: https://rex-state.netlify.app
 [expo-app]: https://expo.io/@daniakash/rex-state-example
+[coffee-badge]: https://img.shields.io/badge/-%E2%98%95%EF%B8%8F%20buy%20me%20a%20coffee-e85b46
+[coffee-url]: https://www.buymeacoffee.com/daniakash
+[sponsor-badge]: https://img.shields.io/badge/-%F0%9F%8F%85%20sponsor%20this%20project-e85b46
+[sponsor-url]: https://www.buymeacoffee.com/daniakash/e/6983
+[support-badge]: https://img.shields.io/badge/-Get%20Support-e85b46
+[support-url]: https://www.buymeacoffee.com/daniakash/e/7030
 [build]: https://github.com/react-native-toolkit/rex-state/actions
 [build-badge]: https://github.com/react-native-toolkit/rex-state/workflows/build/badge.svg
 [coverage-badge]: https://api.codeclimate.com/v1/badges/9bd775907eca8a3dbab3/test_coverage
@@ -142,3 +154,7 @@ MIT © [DaniAkash][twitter]
 [github-watch]: https://github.com/DaniAkash/rex/watchers
 [github-star-badge]: https://img.shields.io/github/stars/DaniAkash/rex.svg?style=social
 [github-star]: https://github.com/DaniAkash/rex/stargazers
+[storybook-badge]: https://cdn.jsdelivr.net/gh/storybookjs/brand@master/badge/badge-storybook.svg
+[website]: https://rex-state.netlify.app
+[chromatic-badge]: https://img.shields.io/badge/-chromatic-%23fc521f
+[chromatic]: https://chromatic.com/library?appId=5f5b21fe6f304800225bd9cf&branch=master
