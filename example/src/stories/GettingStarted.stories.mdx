@@ -1,0 +1,113 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { useDarkMode, DarkModeProvider } from '../hooks/useDarkMode';
+import { ThemeText, ToggleButton } from './ToggleExample';
+import { Text } from 'react-native';
+
+<Meta title="Intro/Getting Started" />
+
+<img
+  src="https://github.com/DaniAkash/rex-state/raw/bob/assets/logo.png"
+  alt="rex-state-logo"
+  height="100px"
+  width="100px"
+/>
+<br />
+<br />
+
+# Rex State
+
+Convert hooks into shared states between react components
+
+[![Build Status][build-badge]][build]
+[![Maintainability][maintainability-badge]][maintainability-url]
+[![Test Coverage][coverage-badge]][coverage-url]
+
+[![Version][version-badge]][package]
+[![Downloads][downloads-badge]][npmtrends]
+[![Bundlephobia][bundle-phobia-badge]][bundle-phobia]
+
+[![Star on GitHub][github-star-badge]][github-star]
+[![Watch on GitHub][github-watch-badge]][github-watch]
+[![Twitter Follow][twitter-badge]][twitter]
+
+Rex State allows you to convert the result of your hooks into a shared state between multiple react components using the Context API.
+
+```jsx
+import { createRexStore } from 'rex-state';
+
+// A simple hook to toggle theme modes between 'light' & 'dark'
+const useThemeHook = (initialTheme = 'light') => {
+  const [theme, setTheme] = useState(initialTheme);
+
+  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
+
+  return [theme, toggleTheme];
+};
+
+// using `createRexStore` to create a Provider & a Hook with shared state
+const { useStore: useTheme, RexProvider: ThemeProvider } = createRexStore(
+  useThemeHook
+);
+
+// Use the `ThemeProvider` at the top level of your React component tree
+const App = () => {
+  // `initialTheme` value can be supplied using the value prop of `ThemeProvider`
+  return (
+    <ThemeProvider value="dark">
+      {/* Rest of your application */}
+      <ToggleButton />
+    </ThemeProvider>
+  );
+};
+
+// All components can now access the `useTheme` hook
+const ToggleButton = () => {
+  const [theme, toggleTheme] = useTheme();
+
+  return (
+    <View>
+      <Text>Is Dark Mode?</Text>
+      <Switch value={theme === 'dark'} onValueChange={toggleTheme} />
+    </View>
+  );
+};
+
+// Calling `toggleTheme` in above component will cause updates
+// in all the components in the Application tree using the context API
+const ThemeText = () => {
+  const [theme] = useTheme();
+
+  return (
+    <>
+      <Text>Theme Mode: </Text>
+      <Text>{theme}</Text>
+    </>
+  );
+};
+```
+
+## Working Example
+
+<DarkModeProvider value="dark">
+  <ToggleButton />
+  <ThemeText />
+</DarkModeProvider>
+
+[build]: https://github.com/DaniAkash/rex-state/actions
+[build-badge]: https://github.com/daniakash/rex-state/workflows/build/badge.svg
+[coverage-badge]: https://api.codeclimate.com/v1/badges/f7954c1e1686cabeeb97/test_coverage
+[coverage-url]: https://codeclimate.com/github/DaniAkash/rex-state/test_coverage
+[maintainability-badge]: https://api.codeclimate.com/v1/badges/f7954c1e1686cabeeb97/maintainability
+[maintainability-url]: https://codeclimate.com/github/DaniAkash/rex-state/maintainability
+[bundle-phobia-badge]: https://badgen.net/bundlephobia/minzip/rex-state
+[bundle-phobia]: https://bundlephobia.com/result?p=rex-state
+[downloads-badge]: https://img.shields.io/npm/dm/rex-state.svg
+[npmtrends]: http://www.npmtrends.com/rex-state
+[package]: https://www.npmjs.com/package/rex-state
+[version-badge]: https://img.shields.io/npm/v/rex-state.svg
+[twitter]: https://twitter.com/dani_akash_
+[twitter-badge]: https://img.shields.io/twitter/follow/dani_akash_?style=social
+[github-watch-badge]: https://img.shields.io/github/watchers/DaniAkash/rex.svg?style=social
+[github-watch]: https://github.com/DaniAkash/rex/watchers
+[github-star-badge]: https://img.shields.io/github/stars/DaniAkash/rex.svg?style=social
+[github-star]: https://github.com/DaniAkash/rex/stargazers
