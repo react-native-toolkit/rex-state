@@ -1,0 +1,19 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Intro/API" />
+
+<!--  -->
+
+## `createRexStore`
+
+```tsx
+createRexStore: <T, V>(useRexState: (value?: V) => T) => {
+  RexProvider: (props: { children: ReactNode; value?: V }) => JSX.Element;
+  useStore: () => T;
+};
+```
+
+`createRexStore` accepts your hook as the argument and returns an object with two properties ﹣
+
+- `RexProvider` which is a "[`Provider`](https://reactjs.org/docs/context.html#contextprovider)" component that will let you pass your hook down the React component tree to all the components by storing it in React context.
+- `useStore` hook will fetch your hook from the React context into your current component. This is built on top of the react "[`useContext`](https://reactjs.org/docs/hooks-reference.html#usecontext)" hook.

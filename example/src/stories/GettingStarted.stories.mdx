@@ -1,4 +1,9 @@
-<div align="center">
+import { Meta } from '@storybook/addon-docs/blocks';
+import { useDarkMode, DarkModeProvider } from '../hooks/useDarkMode';
+import { ThemeText, ToggleButton } from './ToggleExample';
+import { Text } from 'react-native';
+
+<Meta title="Intro/Getting Started" />
 
 <img
   src="https://github.com/DaniAkash/rex-state/raw/bob/assets/logo.png"
@@ -6,6 +11,8 @@
   height="100px"
   width="100px"
 />
+<br />
+<br />
 
 # Rex State
 
@@ -23,39 +30,7 @@ Convert hooks into shared states between react components
 [![Watch on GitHub][github-watch-badge]][github-watch]
 [![Twitter Follow][twitter-badge]][twitter]
 
----
-
-### PRs Welcome 👍✨
-
-</div>
-
-- 📦 [Installation](#installation)
-- ℹ️ [Usage](#usage)
-- 📑 [Documentation][storybook-url]
-- 👨🏽‍🏫 Examples
-  - [Simple Counter][codesandbox-example] with React.js on CodeSandbox
-  - [Dark Mode] with React Native on expo. Project in `example/` directory
-- ✨ [Why Rex State?](#why-rex-state)
-
-## Motivation
-
-Rex State was initially built as a state management library. But after using it in many projects, its main purpose became creating hooks where the data returned by the hook can be shared across multiple react components.
-
-## Requirements
-
-Rex State is built purely on React Hooks hence it requires React > 16.8 to work.
-
-## Installation
-
-```sh
-yarn add rex-state
-
-# or
-
-npm i rex-state
-```
-
-## Usage
+Rex State allows you to convert the result of your hooks into a shared state between multiple react components using the Context API.
 
 ```jsx
 import { createRexStore } from 'rex-state';
@@ -111,24 +86,19 @@ const ThemeText = () => {
 };
 ```
 
-## Why Rex State?
+## Working Example
 
-- It's Tiny!
-- Simple & un-opinionated
-- Makes hooks much more powerful
+<DarkModeProvider value="dark">
+  <ToggleButton />
+  <ThemeText />
+</DarkModeProvider>
 
-## Licenses
-
-MIT © [DaniAkash][twitter]
-
-[codesandbox-example]: https://codesandbox.io/s/rex-counter-2m4zy?file=/src/App.js
-[storybook-url]: https://rex-state.netlify.app
-[build]: https://github.com/react-native-toolkit/rex-state/actions
-[build-badge]: https://github.com/react-native-toolkit/rex-state/workflows/build/badge.svg
-[coverage-badge]: https://api.codeclimate.com/v1/badges/9bd775907eca8a3dbab3/test_coverage
-[coverage-url]: https://codeclimate.com/github/react-native-toolkit/rex-state/test_coverage
+[build]: https://github.com/DaniAkash/rex-state/actions
+[build-badge]: https://github.com/daniakash/rex-state/workflows/build/badge.svg
+[coverage-badge]: https://api.codeclimate.com/v1/badges/f7954c1e1686cabeeb97/test_coverage
+[coverage-url]: https://codeclimate.com/github/DaniAkash/rex-state/test_coverage
 [maintainability-badge]: https://api.codeclimate.com/v1/badges/f7954c1e1686cabeeb97/maintainability
-[maintainability-url]: https://codeclimate.com/github/react-native-toolkit/rex-state/maintainability
+[maintainability-url]: https://codeclimate.com/github/DaniAkash/rex-state/maintainability
 [bundle-phobia-badge]: https://badgen.net/bundlephobia/minzip/rex-state
 [bundle-phobia]: https://bundlephobia.com/result?p=rex-state
 [downloads-badge]: https://img.shields.io/npm/dm/rex-state.svg

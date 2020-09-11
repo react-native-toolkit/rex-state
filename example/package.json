@@ -1,0 +1,41 @@
+{
+  "name": "rex-state-example",
+  "description": "Example app for rex-state",
+  "version": "0.0.1",
+  "private": true,
+  "main": "index",
+  "scripts": {
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "start": "expo start",
+    "test": "jest",
+    "storybook": "start-storybook -p 6006",
+    "build-storybook": "build-storybook -s public --no-dll"
+  },
+  "dependencies": {
+    "expo": "^38.0.0",
+    "expo-splash-screen": "^0.3.1",
+    "expo-status-bar": "^1.0.0",
+    "react": "16.11.0",
+    "react-dom": "16.11.0",
+    "react-native": "0.62.2",
+    "react-native-appearance": "~0.3.3",
+    "react-native-unimodules": "~0.10.1",
+    "react-native-web": "^0.12.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.6",
+    "@babel/runtime": "^7.9.6",
+    "@storybook/addon-actions": "6.0.20",
+    "@storybook/addon-essentials": "6.0.20",
+    "@storybook/addon-links": "6.0.20",
+    "@storybook/react": "6.0.20",
+    "babel-loader": "^8.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "babel-preset-expo": "^8.2.3",
+    "expo-cli": "^3.21.12",
+    "react-is": "^16.13.1",
+    "typescript": "4.0.2"
+  }
+}

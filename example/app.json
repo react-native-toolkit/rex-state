@@ -1,0 +1,23 @@
+{
+  "name": "rex-state-example",
+  "displayName": "RexState Example",
+  "expo": {
+    "userInterfaceStyle": "automatic",
+    "name": "rex-state-example",
+    "slug": "rex-state-example",
+    "description": "Example app for rex-state",
+    "privacy": "public",
+    "version": "1.0.0",
+    "platforms": ["ios", "android", "web"],
+    "splash": {
+      "image": "./src/assets/logo.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "icon": "./src/assets/logo.png",
+    "ios": {
+      "supportsTablet": true
+    },
+    "assetBundlePatterns": ["**/*"]
+  }
+}
