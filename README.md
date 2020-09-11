@@ -1,10 +1,15 @@
 <div align="center">
 
-# 🦖 Rex State
+<img
+  src="https://github.com/DaniAkash/rex-state/raw/bob/assets/logo.png"
+  alt="rex-state-logo"
+  height="100px"
+  width="100px"
+/>
 
-React States on Steroids 💉💊
+# Rex State
 
-Instantly convert your hook into a shared state between react components!
+Convert hooks into shared states between react components
 
 [![Build Status][build-badge]][build]
 [![Maintainability][maintainability-badge]][maintainability-url]
@@ -118,12 +123,12 @@ MIT © [DaniAkash][twitter]
 
 [codesandbox-example]: https://codesandbox.io/s/rex-counter-2m4zy?file=/src/App.js
 [storybook-url]: https://rex-state.netlify.app
-[build]: https://github.com/DaniAkash/rex-state/actions
-[build-badge]: https://github.com/daniakash/rex-state/workflows/build/badge.svg
-[coverage-badge]: https://api.codeclimate.com/v1/badges/f7954c1e1686cabeeb97/test_coverage
-[coverage-url]: https://codeclimate.com/github/DaniAkash/rex-state/test_coverage
+[build]: https://github.com/react-native-toolkit/rex-state/actions
+[build-badge]: https://github.com/react-native-toolkit/rex-state/workflows/build/badge.svg
+[coverage-badge]: https://api.codeclimate.com/v1/badges/9bd775907eca8a3dbab3/test_coverage
+[coverage-url]: https://codeclimate.com/github/react-native-toolkit/rex-state/test_coverage
 [maintainability-badge]: https://api.codeclimate.com/v1/badges/f7954c1e1686cabeeb97/maintainability
-[maintainability-url]: https://codeclimate.com/github/DaniAkash/rex-state/maintainability
+[maintainability-url]: https://codeclimate.com/github/react-native-toolkit/rex-state/maintainability
 [bundle-phobia-badge]: https://badgen.net/bundlephobia/minzip/rex-state
 [bundle-phobia]: https://bundlephobia.com/result?p=rex-state
 [downloads-badge]: https://img.shields.io/npm/dm/rex-state.svg
