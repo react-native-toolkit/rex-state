@@ -1,7 +1,7 @@
 <div align="center">
 
 <img
-  src="https://github.com/DaniAkash/rex-state/raw/bob/assets/logo.png"
+  src="https://github.com/react-native-toolkit/rex-state/raw/master/assets/logo.png"
   alt="rex-state-logo"
   height="100px"
   width="100px"
@@ -34,7 +34,7 @@ Convert hooks into shared states between react components
 - 📑 [Documentation][storybook-url]
 - 👨🏽‍🏫 Examples
   - [Simple Counter][codesandbox-example] with React.js on CodeSandbox
-  - [Dark Mode] with React Native on expo. Project in `example/` directory
+  - [Dark Mode][expo-app] with React Native on expo. Project in [`example/`](https://github.com/react-native-toolkit/rex-state/tree/master/example) directory
 - ✨ [Why Rex State?](#why-rex-state)
 
 ## Motivation
@@ -123,11 +123,12 @@ MIT © [DaniAkash][twitter]
 
 [codesandbox-example]: https://codesandbox.io/s/rex-counter-2m4zy?file=/src/App.js
 [storybook-url]: https://rex-state.netlify.app
+[expo-app]: https://expo.io/@daniakash/rex-state-example
 [build]: https://github.com/react-native-toolkit/rex-state/actions
 [build-badge]: https://github.com/react-native-toolkit/rex-state/workflows/build/badge.svg
 [coverage-badge]: https://api.codeclimate.com/v1/badges/9bd775907eca8a3dbab3/test_coverage
 [coverage-url]: https://codeclimate.com/github/react-native-toolkit/rex-state/test_coverage
-[maintainability-badge]: https://api.codeclimate.com/v1/badges/f7954c1e1686cabeeb97/maintainability
+[maintainability-badge]: https://api.codeclimate.com/v1/badges/9bd775907eca8a3dbab3/maintainability
 [maintainability-url]: https://codeclimate.com/github/react-native-toolkit/rex-state/maintainability
 [bundle-phobia-badge]: https://badgen.net/bundlephobia/minzip/rex-state
 [bundle-phobia]: https://bundlephobia.com/result?p=rex-state
