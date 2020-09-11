@@ -1,6 +1,6 @@
 import React, { createContext, useContext, ReactNode } from 'react';
 
-export const createRexStore = <T extends object, V>(
+export const createRexStore = <T, V>(
   useRexState: (value?: V) => T
 ): {
   RexProvider: ({
