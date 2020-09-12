@@ -1,7 +1,7 @@
 {
   "name": "rex-state",
   "version": "1.0.0",
-  "description": "Convert hooks into shared states between react components",
+  "description": "Convert hooks into shared states between React components",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
   "types": "lib/typescript/src/index.d.ts",

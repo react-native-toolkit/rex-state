@@ -9,7 +9,7 @@
 
 # Rex State
 
-Convert hooks into shared states between react components
+Convert hooks into shared states between React components
 
 [![Build Status][build-badge]][build]
 [![Maintainability][maintainability-badge]][maintainability-url]
