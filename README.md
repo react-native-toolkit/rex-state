@@ -43,10 +43,6 @@ Convert hooks into shared states between react components
   - [Dark Mode][expo-app] with React Native on expo. Project in [`example/`](https://github.com/react-native-toolkit/rex-state/tree/master/example) directory
 - ✨ [Why Rex State?](#why-rex-state)
 
-## Motivation
-
-Rex State was initially built as a state management library. But after using it in many projects, its main purpose became creating hooks where the data returned by the hook can be shared across multiple react components.
-
 ## Requirements
 
 Rex State is built purely on React Hooks hence it requires React > 16.8 to work.
@@ -63,35 +59,51 @@ npm i rex-state
 
 ## Usage
 
-```jsx
-import { createRexStore } from 'rex-state';
+Consider the following hook which lets you toggle theme between light & dark modes
 
-// A simple hook to toggle theme modes between 'light' & 'dark'
-const useThemeHook = (initialTheme = 'light') => {
+```jsx
+const useThemeMode = (initialTheme = 'light') => {
   const [theme, setTheme] = useState(initialTheme);
 
   const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
 
   return [theme, toggleTheme];
 };
+```
 
-// using `createRexStore` to create a Provider & a Hook with shared state
+You can use the `createRexStore` module from rex state to create a provider & a store hook to access the result of your `useThemeMode`
+
+```jsx
+import { createRexStore } from 'rex-state';
+
 const { useStore: useTheme, RexProvider: ThemeProvider } = createRexStore(
-  useThemeHook
+  useThemeMode
 );
+```
 
-// Use the `ThemeProvider` at the top level of your React component tree
+The `useStore` hook & `RexProvider` are renamed to `useTheme` & `ThemeProvider` for use in the application.
+
+Now you can wrap your entire Application inside the `ThemeProvider` to ensure the context is setup properly for the `useTheme` hook.
+
+```jsx
 const App = () => {
-  // `initialTheme` value can be supplied using the value prop of `ThemeProvider`
   return (
     <ThemeProvider value="dark">
       {/* Rest of your application */}
       <ToggleButton />
+      <ThemeText />
     </ThemeProvider>
   );
 };
+```
 
-// All components can now access the `useTheme` hook
+> Note: The value of the argument of `useThemeMode` function - `initialTheme` is supplied to the `ThemeProvider` using the `value` prop. The `value` prop only supports a single argument. Hence if your hook requires multiple arguments, you can pass them as a single object
+
+Once you add the `ThemeProvider` to the top of your application's tree, the child components can now use the `useTheme` hook to access the result of your `useThemeMode` hook. This time, when you call `toggleTheme` in any of the child components, it will cause your entire application tree to re-render & all the components that use the `useTheme` hook will have the updated value!
+
+The following is a toggle button that toggles the theme when users click on it.
+
+```jsx
 const ToggleButton = () => {
   const [theme, toggleTheme] = useTheme();
 
@@ -102,9 +114,11 @@ const ToggleButton = () => {
     </View>
   );
 };
+```
 
-// Calling `toggleTheme` in above component will cause updates
-// in all the components in the Application tree using the context API
+The next component is a text block that simply displays the theme's mode
+
+```jsx
 const ThemeText = () => {
   const [theme] = useTheme();
 
@@ -117,11 +131,15 @@ const ThemeText = () => {
 };
 ```
 
+Invoking the `toggleTheme` function from the `<ToggleButton/>` component updates the `<ThemeText/>` component. This means your hook is now a shared state between the two components!
+
+Also, check out the [counter example](https://codesandbox.io/s/rex-counter-2m4zy?file=/src/App.js) from codesandbox
+
+Rex State is good for some use cases and not suitable for some use cases since it uses the [React Context](https://reactjs.org/docs/context.html#api) API which is considered inefficient as a change causes the entire React child tree to re-render. Read the [performance](https://rex-state.netlify.app/?path=/story/intro-performance--page) section to see how to use Rex State effectively.
+
 ## Why Rex State?
 
-- It's Tiny!
-- Simple & un-opinionated
-- Makes hooks much more powerful
+Rex State is a handy utility to make your hooks more powerful. It is simple, un-opinionated & is very tiny!
 
 ## Licenses
 

@@ -6,6 +6,16 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 Rex State makes the values returned by Hooks shareable using the React Context API. But there are knows performance limitations since changing the value of Context causes the entire Application tree to re-render.
 
-Rex State used to have an [`InjectStore`](https://github.com/daniakash/rex-state/tree/9809c7a7a6f71c1644a7d94a058b5606cf49da11#performance) HOC which implemented the solutions suggested by [Dan Abramov](https://github.com/facebook/react/issues/15156#issuecomment-474590693). This HOC is removed in v1.0 as the goal of Rex State is no longer to be a state management tool, but, to be an utility to share hooks across components.
+## When not to use Rex State
 
-You can directly implement the performance optimizations suggested in the above comment if you need. If you are looking for a powerful state management tool that can efficiently avoid unnecessary re-renders, you can try [recoil](https://recoiljs.org/) or [zustand](https://github.com/react-spring/zustand).
+Rex State is not a state management library. It is a utility to quickly share a hook between two components. Hence if you are working with data that changes often and is shared by a large number of components, it is a good idea to avoid rex state.
+
+Rex State used to have an [`InjectStore`](https://github.com/daniakash/rex-state/tree/9809c7a7a6f71c1644a7d94a058b5606cf49da11#performance) HOC which implemented the solutions suggested by [Dan Abramov](https://github.com/facebook/react/issues/15156#issuecomment-474590693). This HOC is removed in v1.0 as the goal of Rex State is no longer to be a state management tool. You can directly implement the performance optimizations suggested in [the comment](https://github.com/facebook/react/issues/15156#issuecomment-474590693) if you need.
+
+If you are looking for a powerful state management tool that can efficiently avoid unnecessary re-renders, you can try [recoil](https://recoiljs.org/) or [zustand](https://github.com/react-spring/zustand).
+
+## When you can use Rex State
+
+Rex State is good for data that doesn't change often. For example, managing color schemes of dark mode & light mode throughout your application is a good use case. As the theme modes do not change often. Also, changing the mode usually requires all the components to re-render.
+
+If you have data that changes often but you want to share the data of your hook with a limited number of components alone, then instead of wrapping your entire application inside the `RexProvider`, you can only wrap the nearest common parent of the required components inside the `RexProvider`. This ensures the re-renders are limited only to that parent and the rest of your application is not disturbed.

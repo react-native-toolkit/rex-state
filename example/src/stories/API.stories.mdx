@@ -5,10 +5,10 @@ import { Meta } from '@storybook/addon-docs/blocks';
 ## `createRexStore`
 
 ```tsx
-createRexStore: <T, V>(useRexState: (value?: V) => T) => {
+createRexStore: <T, V>(useRexState: (value?: V) => T) => ({
   RexProvider: (props: { children: ReactNode; value?: V }) => JSX.Element;
   useStore: () => T;
-};
+});
 ```
 
 `createRexStore` accepts your hook as the argument and returns an object with two properties ﹣
