@@ -1,16 +1,13 @@
-import React, { ReactNode, ReactElement } from 'react';
+import React, { ReactNode, FC } from 'react';
 import { createContext, useContextSelector } from 'use-context-selector';
 
 export const createRexStore = <T, V>(
   useRexState: (value?: V) => T
 ): {
-  RexProvider: ({
-    children,
-    value,
-  }: {
+  RexProvider: FC<{
     children: ReactNode;
     value?: V;
-  }) => ReactElement;
+  }>;
   useStore: {
     <K>(selector: (val: T) => K): K;
     (selector?: ((val: T) => T) | undefined): T;
@@ -31,13 +28,10 @@ export const createRexStore = <T, V>(
     return store;
   }
 
-  const RexProvider = ({
-    children,
-    value,
-  }: {
+  const RexProvider: FC<{
     children: ReactNode;
     value?: V;
-  }) => {
+  }> = ({ children, value }) => {
     const state = useRexState(value);
     return <Provider value={state}>{children}</Provider>;
   };
