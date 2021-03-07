@@ -4,18 +4,38 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # Performance
 
-Rex State makes the values returned by Hooks shareable using the React Context API. But there are knows performance limitations since changing the value of Context causes the entire Application tree to re-render.
+Rex State makes the values returned by Hooks shareable using the React Context. However, instead of using actual context, it uses [`use-context-selector`](https://github.com/dai-shi/use-context-selector) to ensure state updates are optimized.
 
-## When not to use Rex State
+The idea behind `use-context-selector` is to ensure only the components that rely on a single property of the context value will re-render only when that specific value changes. Context Selectors are a [proposed feature](https://github.com/reactjs/rfcs/pull/119) of react & are not yet available within the library itself.
 
-Rex State is not a state management library. It is a utility to quickly share a hook between two components. Hence if you are working with data that changes often and is shared by a large number of components, it is a good idea to avoid rex state.
+To take full advantage of `use-context-selector`, consider the following store:
 
-Rex State used to have an [`InjectStore`](https://github.com/daniakash/rex-state/tree/9809c7a7a6f71c1644a7d94a058b5606cf49da11#performance) HOC which implemented the solutions suggested by [Dan Abramov](https://github.com/facebook/react/issues/15156#issuecomment-474590693). This HOC is removed in v1.0 as the goal of Rex State is no longer to be a state management tool. You can directly implement the performance optimizations suggested in [the comment](https://github.com/facebook/react/issues/15156#issuecomment-474590693) if you need.
+```jsx
+import { createRexStore } from 'rex-state';
 
-If you are looking for a powerful state management tool that can efficiently avoid unnecessary re-renders, you can try [recoil](https://recoiljs.org/) or [zustand](https://github.com/react-spring/zustand).
+const useTheme = (initialTheme = 'light') => {
+  const [theme, setTheme] = useState(initialTheme);
 
-## When you can use Rex State
+  const toggleTheme = useCallback(
+    () =>
+      setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light')),
+    []
+  );
 
-Rex State is good for data that doesn't change often. For example, managing color schemes of dark mode & light mode throughout your application is a good use case. As the theme modes do not change often. Also, changing the mode usually requires all the components to re-render.
+  return { theme, toggleTheme };
+};
 
-If you have data that changes often but you want to share the data of your hook with a limited number of components alone, then instead of wrapping your entire application inside the `RexProvider`, you can only wrap the nearest common parent of the required components inside the `RexProvider`. This ensures the re-renders are limited only to that parent and the rest of your application is not disturbed.
+const { useStore: useThemeStore, RexProvider: ThemeProvider } = createRexStore(
+  useTheme
+);
+```
+
+At any point of time, if your component only needs the `theme` property, then use the hook in the following way:
+
+```jsx
+const theme = useThemeStore((store) => store.theme);
+```
+
+This will ensure your component will only re-render if the value of theme changes & is unaffected by other properties.
+
+Also, the `toggleTheme` function is wrapped inside `useCallback` hook because functions are non-primitive & if any of your component only needs the `toggleTheme` function, it will help prevent unnecessary re-renders. Read more about `useCallback` [here](https://reactjs.org/docs/hooks-reference.html#usecallback)
