@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
 });
 
 export const ThemeText = () => {
-  const [mode] = useDarkMode();
+  const mode = useDarkMode((store) => store.mode);
 
   return (
     <>
@@ -31,7 +31,7 @@ export const ThemeText = () => {
 };
 
 export const ToggleButton = () => {
-  const [mode, toggleMode] = useDarkMode();
+  const { mode, toggleMode } = useDarkMode();
 
   return (
     <View style={styles.toggleContainer}>

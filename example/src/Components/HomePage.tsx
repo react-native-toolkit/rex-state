@@ -5,7 +5,7 @@ import { useDarkMode } from '../hooks/useDarkMode';
 import { StatusBar } from 'expo-status-bar';
 
 const HomePage = () => {
-  const [mode] = useDarkMode();
+  const mode = useDarkMode((store) => store.mode);
 
   return (
     <View

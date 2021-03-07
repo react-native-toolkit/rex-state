@@ -4,7 +4,7 @@ import color from '../color/color';
 import { useDarkMode } from '../hooks/useDarkMode';
 
 const ToggleButton = () => {
-  const [mode, toggleMode] = useDarkMode();
+  const { mode, toggleMode } = useDarkMode();
 
   return (
     <View style={styles.toggleContainer}>

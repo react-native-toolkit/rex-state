@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { Appearance } from 'react-native-appearance';
 import { createRexStore } from 'rex-state';
 
@@ -11,7 +11,10 @@ const currentMode =
 
 type colorSchemeTypes = 'light' | 'dark';
 
-type useDarkModeHookReturnType = [colorSchemeTypes, () => void];
+type useDarkModeHookReturnType = {
+  mode: colorSchemeTypes;
+  toggleMode: () => void;
+};
 
 /**
  * A simple dark mode hook which returns the current mode of the app
@@ -23,9 +26,13 @@ const useDarkModeHook = (
     defaultMode || currentMode
   );
 
-  const toggleMode = () => setMode(mode === 'light' ? 'dark' : 'light');
+  const toggleMode = useCallback(
+    () =>
+      setMode((selectedMode) => (selectedMode === 'light' ? 'dark' : 'light')),
+    []
+  );
 
-  return [mode, toggleMode];
+  return { mode, toggleMode };
 };
 
 /**
