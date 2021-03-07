@@ -16,7 +16,7 @@ import { Text } from 'react-native';
 
 # Rex State
 
-Convert hooks into shared states between React components
+Simple straight forward state management with React Hooks
 
 [![Build Status][build-badge]][build]
 [![Maintainability][maintainability-badge]][maintainability-url]
@@ -34,35 +34,39 @@ Convert hooks into shared states between React components
 [![sponsor][sponsor-badge]][sponsor-url]
 [![support][support-badge]][support-url]
 
-Rex State allows you to convert the result of your hooks into a shared state between multiple React components using the Context API.
+Rex State allows you to convert your hooks into full fledged stores which can then be shared between multiple react components.
 
 ## Usage
 
 Consider the following hook which lets you toggle theme between light & dark modes
 
 ```jsx
-const useThemeMode = (initialTheme = 'light') => {
+const useTheme = (initialTheme = 'light') => {
   const [theme, setTheme] = useState(initialTheme);
 
-  const toggleTheme = () => setTheme(theme === 'light' ? 'dark' : 'light');
+  const toggleTheme = useCallback(
+    () =>
+      setTheme((currentTheme) => (currentTheme === 'light' ? 'dark' : 'light')),
+    []
+  );
 
-  return [theme, toggleTheme];
+  return { theme, toggleTheme };
 };
 ```
 
-You can use the `createRexStore` module from rex state to create a provider & a store hook to access the result of your `useThemeMode`
+You can use the `createRexStore` module from rex state to create a provider & a store hook to access the result of your `useTheme` hook
 
 ```jsx
 import { createRexStore } from 'rex-state';
 
-const { useStore: useTheme, RexProvider: ThemeProvider } = createRexStore(
-  useThemeMode
+const { useStore: useThemeStore, RexProvider: ThemeProvider } = createRexStore(
+  useTheme
 );
 ```
 
-The `useStore` hook & `RexProvider` are renamed to `useTheme` & `ThemeProvider` for use in the application.
+The `useStore` hook & `RexProvider` are renamed to `useThemeStore` & `ThemeProvider` for use in the application.
 
-Now you can wrap your entire Application inside the `ThemeProvider` to ensure the context is setup properly for the `useTheme` hook.
+Now you can wrap your entire Application inside the `ThemeProvider` to ensure the context is setup properly for the `useThemeStore` hook.
 
 ```jsx
 const App = () => {
@@ -76,15 +80,15 @@ const App = () => {
 };
 ```
 
-> Note: The value of the argument of `useThemeMode` function - `initialTheme` is supplied to the `ThemeProvider` using the `value` prop. The `value` prop only supports a single argument. Hence if your hook requires multiple arguments, you can pass them as a single object
+> Note: The value of the argument of `useTheme` function - `initialTheme` is supplied to the `ThemeProvider` using the `value` prop. The `value` prop only supports a single argument. Hence if your hook requires multiple arguments for eg: `useFunc(a, b)`, you can pass them as a single object `useFunc({a, b})`
 
-Once you add the `ThemeProvider` to the top of your application's tree, the child components can now use the `useTheme` hook to access the result of your `useThemeMode` hook. This time, when you call `toggleTheme` in any of the child components, it will cause your entire application tree to re-render & all the components that use the `useTheme` hook will have the updated value!
+Once you add the `ThemeProvider` to the top of your application's tree, the child components can now use the `useThemeStore` hook to access the result of your `useTheme` hook. This time, when you call `toggleTheme` in any of the child components, it will cause your entire application tree to be aware of the state change & all the components that use the `useThemeStore` hook will have the updated value!
 
 The following is a toggle button that toggles the theme when users click on it.
 
 ```jsx
 const ToggleButton = () => {
-  const [theme, toggleTheme] = useTheme();
+  const { theme, toggleTheme } = useThemeStore();
 
   return (
     <View>
@@ -98,8 +102,8 @@ const ToggleButton = () => {
 The next component is a text block that simply displays the theme's mode
 
 ```jsx
-const ThemeText = () => {
-  const [theme] = useTheme();
+export const ThemeText = () => {
+  const theme = useThemeStore((store) => store.theme);
 
   return (
     <>
@@ -127,7 +131,7 @@ As you can see, calling the `toggleTheme` function from the `<ToggleButton/>` co
 
 Also, check out the [counter example](https://codesandbox.io/s/rex-counter-2m4zy?file=/src/App.js) from codesandbox
 
-Rex State is good for some use cases and not suitable for some use cases since it uses the [React Context](https://reactjs.org/docs/context.html#api) API which is considered inefficient as a change causes the entire React child tree to re-render. Read the performance section to see how to use Rex State effectively.
+To make sure the re-rendering of components is performant & efficient Rex State doesn't use the [React Context](https://reactjs.org/docs/context.html#api) API, instead uses the awesome [use-context-selector](https://github.com/dai-shi/use-context-selector). Read more about it in the performance section.
 
 [coffee-badge]: https://img.shields.io/badge/-%E2%98%95%EF%B8%8F%20buy%20me%20a%20coffee-e85b46
 [coffee-url]: https://www.buymeacoffee.com/daniakash
